@@ -8,7 +8,7 @@
       <contentWrapper></contentWrapper>
     </div>
     <div class="floor">
-      <floorWrapper></floorWrapper>
+      <!-- <floorWrapper></floorWrapper> -->
     </div>
   </div>
 </template>
@@ -16,9 +16,9 @@
 <script type="text/ecmascript-6">
 import headerNav from './Components/header';
 import contentWrapper from './Components/content';
-import floorWrapper from './Components/floor';
+// import floorWrapper from './Components/floor';
 export default {
-  name: 'rauntimeAnalysis',
+  name: 'realTimeDashboard',
   data () {
     return {
       busLine: '1路',
@@ -27,8 +27,8 @@ export default {
   },
   components: {
     headerNav,
-    contentWrapper,
-    floorWrapper
+    contentWrapper
+    // floorWrapper
   },
   mounted () {
     console.log(123);

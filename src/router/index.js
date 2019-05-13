@@ -19,6 +19,7 @@ const runtimeAnalysis = () => import('views/operationAnalysis/dispatchingOperati
 const passengerTransportCapacity = () => import('views/operationAnalysis/dispatchingOperationAnalysis/passengerTransportCapacity/');
 const safetySupervision = () => import('views/operationAnalysis/safetySupervision/');
 const vehicleFaultAlarm = () => import('views/operationAnalysis/safetySupervision/vehicleFaultAlarm');
+const realTimeDashboard = () => import('views/operationAnalysis/safetySupervision/realTimeDashboard');
 
 export const constantRouterMap = [
   {
@@ -173,6 +174,15 @@ export const constantRouterMap = [
             meta: {
               title: '车辆故障报警',
               icon: 'fa fa-bell'
+            }
+          },
+          {
+            path: '/operation/safety-supervision/real-time-dashboard',
+            component: realTimeDashboard,
+            name: 'realTimeDashboard',
+            meta: {
+              title: '实时仪表盘',
+              icon: 'fa fa-dashboard'
             }
           }
         ]
