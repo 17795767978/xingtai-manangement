@@ -5,7 +5,7 @@
         路线{{busLine}}客流高峰时刻分析（上行）
       </h3>
       <div class="heat-chart-wrapper">
-        <upChart></upChart>
+        <upChart :headerParams='headerParams'></upChart>
       </div>
     </el-row>
     <el-row class="down-content">
@@ -13,7 +13,7 @@
         路线{{busLine}}客流高峰时刻分析（下行）
       </h3>
       <div class="heat-chart-wrapper">
-        <downChart></downChart>
+        <downChart :headerParams="headerParams"></downChart>
       </div>
     </el-row>
   </div>
@@ -23,6 +23,11 @@
 import upChart from './charts/upChart';
 import downChart from './charts/downChart';
 export default {
+  props: {
+    headerParams: {
+      type: Object
+    }
+  },
   data () {
     return {
       busLine: '1路'

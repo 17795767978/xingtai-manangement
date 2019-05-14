@@ -27,24 +27,25 @@
           v-model="formInline.startTime"
           :picker-options="{
             start: '00:00',
-            step: '00:15',
-            end: '23:59'
+            step: '01:00',
+            end: '23:00'
           }">
         </el-time-select>
+        -
         <el-time-select
           placeholder="结束时间"
           style="width: 150px"
           v-model="formInline.endTime"
           :picker-options="{
             start: '00:00',
-            step: '00:15',
-            end: '23:59',
+            step: '01:00',
+            end: '23:00',
             minTime: formInline.startTime
           }">
         </el-time-select>
       </el-form-item>
       <el-form-item>
-        <el-checkbox-group v-model="formInline.type">
+        <el-checkbox-group v-model="tabType" @change="changeType">
           <el-checkbox label="上车人数" name="type"></el-checkbox>
           <el-checkbox label="下车人数" name="type"></el-checkbox>
           <el-checkbox label="断面客流" name="type"></el-checkbox>
@@ -53,20 +54,21 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button type="warning" @click="onSubmit">重置</el-button>
+        <el-button type="warning" @click="onclear">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import moment from 'moment';
 export default {
   data() {
     return {
       formInline: {
         value: '',
         date: '',
-        type: [],
+        type: '',
         startTime: '',
         endTime: ''
         // typeUp: '',
@@ -74,29 +76,16 @@ export default {
         // typeStream: '',
         // typeFullRate: ''
       },
+      tabType: ['上车人数', '下车人数', '断面客流', '满载率'],
       options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      turnOptions: [{
-        value: '0',
-        label: '上行'
-      }, {
-        value: '1',
-        label: '下行'
-      }],
+        value: '0103',
+        label: '103路'
+      },
+      {
+        value: '0104',
+        label: '104路'
+      }
+      ],
       pickerOptions: {
         disabledDate(time) {
           return time.getTime() > Date.now();
@@ -124,9 +113,32 @@ export default {
       }
     };
   },
+  created () {
+    let dataNow = new Date();
+    let dataBefore = new Date(dataNow.getTime() - 24 * 60 * 60 * 1000);
+    this.formInline.value = '0103';
+    this.formInline.date = moment(dataBefore).format('YYYY-MM-DD');
+    this.formInline.startTime = '00:00';
+    this.formInline.endTime = '23:00';
+  },
   methods: {
     onSubmit() {
-      console.log(this.formInline);
+      this.formInline.date = moment(this.formInline.date).format('YYYY-MM-DD');
+      this.$emit('configCheck', this.formInline);
+      this.$emit('tabTypeCheck', this.tabType);
+    },
+    onclear () {
+      this.formInline = {
+        value: '',
+        date: '',
+        type: '',
+        startTime: '',
+        endTime: ''
+      };
+    },
+    changeType () {
+      // console.log(this.tabType);
+      this.$emit('tabTypeCheck', this.tabType);
     }
   }
 };

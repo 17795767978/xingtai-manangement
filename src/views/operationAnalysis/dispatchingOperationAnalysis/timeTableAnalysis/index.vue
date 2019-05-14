@@ -1,10 +1,10 @@
 <template>
   <div class="time-table-analysis">
     <header>
-      <headerNav></headerNav>
+      <headerNav @configCheck="configCheck"></headerNav>
     </header>
     <div class="content">
-      <contentWrapper></contentWrapper>
+      <contentWrapper :headerParams="headerParams"></contentWrapper>
     </div>
   </div>
 </template>
@@ -14,12 +14,22 @@ import headerNav from './Components/header';
 import contentWrapper from './Components/content';
 export default {
   name: 'timeTableAnalysis',
+  data () {
+    return {
+      headerParams: {}
+    };
+  },
   components: {
     headerNav,
     contentWrapper
   },
   mounted () {
     console.log(123);
+  },
+  methods: {
+    configCheck (data) {
+      this.headerParams = data;
+    }
   }
 };
 </script>

@@ -23,16 +23,23 @@
           <p class="font-style">GPS：2019-05-13 17:42:00</p>
           <p class="font-style">接收：2019-05-13 17:42:00</p>
           <p class="font-style">状态：启动</p>
-          <p class="font-style">行驶：1小时，16.17千米</p>
-          <el-button type="text" size="mini" @click="subMit">点击事件</el-button>
+          <p class="font-style" style="margin-bottom: 5px;">行驶：1小时，16.17千米</p>
+          <el-button type="text" style="margin-top: -20px;" size="mini" @click="subMit">点击事件</el-button>
         </bm-info-window>
+        <bm-marker
+          :position="center"
+          :icon="{url: `${iconCar}`, size: {width: 50, height: 30}}"
+          animation="BMAP_ANIMATION_DROP"
+          >
+        </bm-marker>
       </baidu-map>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-// import {BmMarker, BmlHeatmap} from 'vue-baidu-map';
+import {BmMarker} from 'vue-baidu-map';
+import iconCar from 'assets/images/bus.png';
 export default {
   data () {
     return {
@@ -40,8 +47,12 @@ export default {
       zoom: 13,
       infoWindow: {
         show: true
-      }
+      },
+      iconCar: iconCar
     };
+  },
+  components: {
+    BmMarker
   },
   mounted () {
   },
@@ -58,11 +69,9 @@ export default {
       alert('ok');
     },
     infoWindowClose () {
-      console.log(123);
       this.infoWindow.show = false;
     },
     infoWindowOpen () {
-      console.log(123123);
       this.infoWindow.show = true;
     }
   }

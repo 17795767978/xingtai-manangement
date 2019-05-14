@@ -1,12 +1,12 @@
 <template>
   <div class="section-table-analysis">
     <header>
-      <headerNav></headerNav>
+      <headerNav @configCheck="configCheck"></headerNav>
     </header>
     <div class="content">
       <!-- <contentWrapper></contentWrapper> -->
-      <h2 class="title"><span style="color: #f00">{{busLine}}</span>客流高峰断面分析</h2>
-      <Chart></Chart>
+      <h2 class="title"><span style="color: #f00">{{checkData.value}}</span>客流高峰断面分析</h2>
+      <Chart :checkData="checkData"></Chart>
     </div>
   </div>
 </template>
@@ -19,7 +19,8 @@ export default {
   name: 'sectionAnalysis',
   data () {
     return {
-      busLine: '1路'
+      busLine: '1路',
+      checkData: {}
     };
   },
   components: {
@@ -29,6 +30,12 @@ export default {
   },
   mounted () {
     console.log(123);
+  },
+  methods: {
+    configCheck (data) {
+      // console.log(data);
+      this.checkData = data;
+    }
   }
 };
 </script>
@@ -42,6 +49,7 @@ export default {
     box-sizing: border-box;
     .title {
       text-align: center;
+      margin-bottom: -20px;
     }
   }
 }

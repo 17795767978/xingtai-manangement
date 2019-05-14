@@ -4,9 +4,9 @@
       <headerNav></headerNav>
     </header>
     <div class="content">
-      <!-- <contentWrapper></contentWrapper> -->
       <h2 class="title"><span style="color: #f00">{{busLine}}{{station}}</span>车次时序图</h2>
       <h4 class="title time">刷新时间：</h4>
+      <contentWrapper></contentWrapper>
       <!-- <Chart></Chart> -->
     </div>
   </div>
@@ -14,6 +14,7 @@
 
 <script type="text-ecmascript-6">
 import headerNav from './Components/header';
+import contentWrapper from './Components/content';
 export default {
   name: 'tripOrder',
   data () {
@@ -23,7 +24,8 @@ export default {
     };
   },
   components: {
-    headerNav
+    headerNav,
+    contentWrapper
   }
 };
 </script>

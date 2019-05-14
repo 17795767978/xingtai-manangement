@@ -94,3 +94,28 @@ export function positionRating (url, params) {
 export function hotDataLine (url, params) {
   return api.post(url, params);
 }
+
+// 线路客流高峰时刻分析-上行
+export function timeTableAnalysisUp (url, params) {
+  return api.post(url, params);
+}
+
+// 线路客流高峰时刻分析-下行
+export function timeTableAnalysisDown (url, params) {
+  return api.post(url, params);
+}
+
+// 客流高峰断面分析
+export function sectionAnalysis (url, params) {
+  return api.post(url, params);
+}
+
+// 线路区间满载率查询(上行)
+export function fullRateAnalysisUp (url, params) {
+  return api.post(url, params);
+}
+
+// 线路区间满载率查询(上行)
+export function fullRateAnalysisDown (url, params) {
+  return api.post(url, params);
+}

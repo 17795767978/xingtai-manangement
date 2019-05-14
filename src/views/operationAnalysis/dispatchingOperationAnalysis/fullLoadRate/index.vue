@@ -1,10 +1,10 @@
 <template>
   <div class="full-load-rate">
     <header>
-      <headerNav></headerNav>
+      <headerNav @configCheck="configCheck" @tabTypeCheck="tabTypeCheck"></headerNav>
     </header>
     <div class="content">
-      <contentWrapper></contentWrapper>
+      <contentWrapper :checkData="checkData" :tabTypeData="tabTypeData"></contentWrapper>
     </div>
   </div>
 </template>
@@ -14,12 +14,26 @@ import headerNav from './Components/header';
 import contentWrapper from './Components/content';
 export default {
   name: 'timeTableAnalysis',
+  data () {
+    return {
+      checkData: {},
+      tabTypeData: []
+    };
+  },
   components: {
     headerNav,
     contentWrapper
   },
   mounted () {
     console.log(123);
+  },
+  methods: {
+    configCheck (data) {
+      this.checkData = data;
+    },
+    tabTypeCheck (tabType) {
+      this.tabTypeData = tabType;
+    }
   }
 };
 </script>

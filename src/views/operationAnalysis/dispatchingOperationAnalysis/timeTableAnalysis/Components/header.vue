@@ -14,21 +14,21 @@
       <el-form-item label="月份">
         <el-date-picker
           v-model="formInline.date"
-          align="right"
-          type="date"
-          placeholder="选择日期"
-          :picker-options="pickerOptions">
+          type="month"
+          format="yyyy-MM"
+          placeholder="选择月">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button type="warning" @click="onSubmit">重置</el-button>
+        <el-button type="primary" @click="onCheck">查询</el-button>
+        <el-button type="warning" @click="onClear">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import moment from 'moment';
 export default {
   data() {
     return {
@@ -37,19 +37,19 @@ export default {
         date: ''
       },
       options: [{
-        value: '选项1',
+        value: '0',
         label: '黄金糕'
       }, {
-        value: '选项2',
+        value: '1',
         label: '双皮奶'
       }, {
-        value: '选项3',
+        value: '2',
         label: '蚵仔煎'
       }, {
-        value: '选项4',
+        value: '3',
         label: '龙须面'
       }, {
-        value: '选项5',
+        value: '4',
         label: '北京烤鸭'
       }],
       pickerOptions: {
@@ -80,8 +80,14 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
+    onCheck () {
+      this.formInline.date = moment(this.formInline.date).format('YYYY-MM');
+      // console.log(this.formInline);
+      this.$emit('configCheck', this.formInline);
+    },
+    onClear () {
+      this.formInline.value = '';
+      this.formInline.date = '';
     }
   }
 };

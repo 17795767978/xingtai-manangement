@@ -5,7 +5,7 @@
         路线{{busLine}}客流高峰时刻分析（上行）
       </h3>
       <div class="heat-chart-wrapper">
-        <upChart></upChart>
+        <upChart :checkData="checkData" :tabTypeData="tabTypeData"></upChart>
       </div>
     </el-row>
     <el-row class="down-content">
@@ -13,7 +13,7 @@
         路线{{busLine}}客流高峰时刻分析（下行）
       </h3>
       <div class="heat-chart-wrapper">
-        <downChart></downChart>
+        <downChart :checkData="checkData" :tabTypeData="tabTypeData"></downChart>
       </div>
     </el-row>
   </div>
@@ -27,6 +27,14 @@ export default {
     return {
       busLine: '1路'
     };
+  },
+  props: {
+    checkData: {
+      type: Object
+    },
+    tabTypeData: {
+      type: Array
+    }
   },
   components: {
     upChart,
@@ -54,7 +62,7 @@ export default {
     margin-bottom: 0;
     // padding-bottom: 5%;
     .heat-chart-wrapper {
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
       box-sizing: border-box;
     }
@@ -64,7 +72,7 @@ export default {
     margin-bottom: 0;
     // padding-bottom: 10%;
     .heat-chart-wrapper {
-      width: 80%;
+      width: 90%;
       margin: 0 auto;
       box-sizing: border-box;
     }
