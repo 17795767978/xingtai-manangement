@@ -1,8 +1,8 @@
 <template>
   <div class="header">
-    <el-form :inline="true" :model="formInline" class="form-inline">
+    <el-form :inline="true" size="mini" :model="formInline" class="form-inline">
       <el-form-item label="选择路线">
-        <el-select v-model="formInline.value" placeholder="请选择">
+        <el-select class="font-style" v-model="formInline.value" placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -13,6 +13,7 @@
       </el-form-item>
       <el-form-item label="选择日期">
         <el-date-picker
+          class="font-style"
           v-model="formInline.date"
           align="right"
           type="date"
@@ -22,30 +23,30 @@
         </el-form-item>
         <el-form-item label="选择时间">
           <el-time-select
-          style="width: 150px"
+          class="font-style"
           placeholder="起始时间"
           v-model="formInline.startTime"
           :picker-options="{
             start: '00:00',
             step: '01:00',
-            end: '23:00'
+            end: '24:00'
           }">
         </el-time-select>
         -
         <el-time-select
           placeholder="结束时间"
-          style="width: 150px"
+          class="font-style"
           v-model="formInline.endTime"
           :picker-options="{
             start: '00:00',
             step: '01:00',
-            end: '23:00',
+            end: '24:00',
             minTime: formInline.startTime
           }">
         </el-time-select>
       </el-form-item>
       <el-form-item>
-        <el-checkbox-group v-model="tabType" @change="changeType">
+        <el-checkbox-group size="mini" style="transform: scale(0.9)" v-model="tabType" @change="changeType">
           <el-checkbox label="上车人数" name="type"></el-checkbox>
           <el-checkbox label="下车人数" name="type"></el-checkbox>
           <el-checkbox label="断面客流" name="type"></el-checkbox>
@@ -119,7 +120,7 @@ export default {
     this.formInline.value = '0103';
     this.formInline.date = moment(dataBefore).format('YYYY-MM-DD');
     this.formInline.startTime = '00:00';
-    this.formInline.endTime = '23:00';
+    this.formInline.endTime = '24:00';
   },
   methods: {
     onSubmit() {
@@ -153,6 +154,9 @@ export default {
   box-shadow: 0 1px 10px rgba(0,0,0, 0.5);
   .form-inline {
    height: 38px;
+   .font-style {
+     width: 130px;
+   }
   }
 }
 </style>

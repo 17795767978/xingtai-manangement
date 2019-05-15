@@ -1,6 +1,7 @@
 <template>
   <div>
     <div
+      v-cloak
       ref="downChartWrapper"
       id="down-chart-wrapper"
       :style="{width: '100%', height: '330px'}"
@@ -8,7 +9,7 @@
       element-loading-background="rgba(255, 255, 255, 0.5)"
     >
     </div>
-    <div v-if="xAxisData.length === 0" class="anim" style="width: 100%; height: 330px; line-height:300px;text-align:center">
+    <div v-cloak v-if="xAxisData.length === 0" class="anim" style="width: 100%; height: 330px; line-height:300px;text-align:center">
       暂无数据
     </div>
   </div>
@@ -22,27 +23,34 @@ export default {
   props: {
     checkData: {
       type: Object
+    },
+    tabTypeData: {
+      type: Array
     }
   },
   data () {
     return {
       loading: true,
+      dataSource: [],
       upPersonNum: [],
       downPersonNum: [],
       passengerFlow: [],
       fullRate: [],
       xAxisData: [],
+      tabType: '',
       maxNum: '',
       maxRate: ''
     };
   },
   created () {
+    // let dataNow = new Date();
+    // let dataBefore = moment(new Date(dataNow.getTime() - 24 * 60 * 60 * 1000)).format('YYYY-MM-DD');
     this._fullRateAnalysisDown({
       lineId: '0103',
       type: '2',
-      dateTime: '',
-      startHour: '',
-      endHour: ''
+      dateTime: '2019-04-24',
+      startHour: '00',
+      endHour: '24'
     });
   },
   mounted () {
@@ -61,29 +69,70 @@ export default {
           });
         }
       }
+    },
+    tabTypeData () {
+      this.seeType();
     }
   },
   methods: {
     _fullRateAnalysisDown (params) {
       fullRateAnalysisDown('zhfxpt/analysis/getDownLineStationChartDatas', params).then(res => {
-        this.upPersonNum = res.data.data.datas[0];
-        this.downPersonNum = res.data.data.datas[1];
-        this.passengerFlow = res.data.data.datas[2];
-        this.fullRate = res.data.data.datas[3];
+        this.dataSource = res.data.data.datas;
         this.xAxisData = res.data.data.xAxisNames;
-        if (res.data.data.datas.length > 0) {
-          this.maxNum = max([max(this.upPersonNum), max(this.downPersonNum), max(this.passengerFlow)]);
-          this.maxRate = max(this.fullRate);
-        }
+        this.seeType();
         if (this.xAxisData.length > 0) {
           this.$refs.downChartWrapper.style.display = 'block';
           this.drawLine();
           this.loading = false;
         } else {
-          this.$message.error('暂无数据');
+          this.$message.warning('暂无数据');
           this.$refs.downChartWrapper.style.display = 'none';
         }
       });
+    },
+    seeType () {
+      if (this.tabTypeData.length === 0) {
+        this.tabType = ['上车人数', '下车人数', '断面客流', '满载率'];
+        this.upPersonNum = this.dataSource[0];
+        this.downPersonNum = this.dataSource[1];
+        this.passengerFlow = this.dataSource[2];
+        this.fullRate = this.dataSource[3];
+      } else {
+        this.tabType = [];
+        let isTypeUp = this.tabTypeData.some(item => item === '上车人数');
+        let isTypeDown = this.tabTypeData.some(item => item === '下车人数');
+        let isPassFlow = this.tabTypeData.some(item => item === '断面客流');
+        let isFullRate = this.tabTypeData.some(item => item === '满载率');
+        if (isTypeUp) {
+          this.upPersonNum = this.dataSource[0];
+          this.tabType.push('上车人数');
+        } else {
+          this.upPersonNum = [];
+        }
+        if (isTypeDown) {
+          this.downPersonNum = this.dataSource[1];
+          this.tabType.push('下车人数');
+        } else {
+          this.downPersonNum = [];
+        }
+        if (isPassFlow) {
+          this.passengerFlow = this.dataSource[2];
+          this.tabType.push('断面客流');
+        } else {
+          this.passengerFlow = [];
+        }
+        if (isFullRate) {
+          this.fullRate = this.dataSource[3];
+          this.tabType.push('满载率');
+        } else {
+          this.fullRate = [];
+        }
+      }
+      if (this.dataSource.length > 0) {
+        this.maxNum = max([max(this.upPersonNum), max(this.downPersonNum), max(this.passengerFlow)]);
+        this.maxRate = max(this.fullRate);
+      }
+      this.drawLine();
     },
     drawLine () {
       let downChart = this.$echarts.init(document.getElementById('down-chart-wrapper'));
@@ -105,7 +154,7 @@ export default {
         },
         // color: ['#0490b3', '#6e9724', '#b22679', '#0468b2'],
         legend: {
-          data: ['上车人数', '断面客流', '下车人数', '满载率'],
+          data: this.tabType,
           bottom: 10,
           textStyle: {
             color: '#000'
@@ -231,6 +280,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+[v-cloak]
+{
+display: none;
+}
 .anim {
   animation: zy 2.5s .15s linear forwards;
 // -moz-animation: zy 2.5s .15s linear infinite; /* Firefox */

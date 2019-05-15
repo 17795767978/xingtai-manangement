@@ -165,7 +165,7 @@ export default {
   border-radius: 6px;
   padding: 20px 50px;
   box-sizing: border-box;
-  margin-top: 20px;
+  margin-top: 30px;
   padding-bottom: 16%;
 }
 </style>

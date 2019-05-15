@@ -119,3 +119,8 @@ export function fullRateAnalysisUp (url, params) {
 export function fullRateAnalysisDown (url, params) {
   return api.post(url, params);
 }
+
+// 车辆发车趟次时序图
+export function tripOrder (url, params) {
+  return api.post(url, params);
+}

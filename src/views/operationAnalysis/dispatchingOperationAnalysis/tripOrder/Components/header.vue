@@ -1,8 +1,9 @@
 <template>
   <div class="header">
-    <el-form :inline="true" :model="formInline" class="form-inline">
+    <el-form :inline="true" size="mini" :model="formInline" class="form-inline">
       <el-form-item label="行车日期">
         <el-date-picker
+          class="font-style"
           v-model="formInline.date"
           align="right"
           type="date"
@@ -11,7 +12,7 @@
         </el-date-picker>
       </el-form-item>
       <el-form-item label="选择路线">
-        <el-select v-model="formInline.value" placeholder="请选择">
+        <el-select v-model="formInline.value" class="font-style" placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -21,7 +22,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="上下行">
-        <el-select v-model="formInline.value" placeholder="请选择">
+        <el-select  class="font-style" v-model="formInline.turn" placeholder="请选择">
           <el-option
             v-for="item in turnOptions"
             :key="item.value"
@@ -30,15 +31,28 @@
           </el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="车次">
-        <el-select v-model="formInline.value" placeholder="请选择">
-          <el-option
-            v-for="item in turnOptions"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
-        </el-select>
+      <el-form-item label="时间">
+        <el-time-select
+          placeholder="起始时间"
+          class="font-style"
+          v-model="formInline.startTime"
+          :picker-options="{
+            start: '06:00',
+            step: '01:00',
+            end: '24:00'
+          }">
+        </el-time-select>
+        <el-time-select
+          placeholder="结束时间"
+          v-model="formInline.endTime"
+          class="font-style"
+          :picker-options="{
+            start: '06:00',
+            step: '01:00',
+            end: '24:00',
+            minTime: formInline.startTime
+          }">
+        </el-time-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
@@ -48,34 +62,26 @@
 </template>
 
 <script type="text/ecmascript-6">
+import moment from 'moment';
 export default {
   data() {
     return {
       formInline: {
         value: '',
-        date: ''
+        date: '',
+        turn: '',
+        startTime: '',
+        endTime: ''
       },
       options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
+        value: '0103',
+        label: '103路'
       }],
       turnOptions: [{
-        value: '0',
+        value: '1',
         label: '上行'
       }, {
-        value: '1',
+        value: '2',
         label: '下行'
       }],
       pickerOptions: {
@@ -107,7 +113,8 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('submit!');
+      this.formInline.date = moment(this.formInline.date).format('YYYY-MM-DD');
+      this.$emit('configType', this.formInline);
     }
   }
 };
@@ -122,6 +129,9 @@ export default {
   box-shadow: 0 1px 10px rgba(0,0,0, 0.5);
   .form-inline {
    height: 38px;
+   .font-style {
+     width: 160px;
+   }
   }
 }
 </style>

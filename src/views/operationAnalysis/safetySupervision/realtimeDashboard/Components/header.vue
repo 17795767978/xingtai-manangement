@@ -1,7 +1,7 @@
 <template>
 <div>
   <div class="header">
-    <el-form :inline="true" :model="formInline" class="form-inline">
+    <el-form :inline="true" size="mini" :model="formInline" class="form-inline">
       <el-form-item label="快速选择线路：">
         <el-select v-model="formInline.selectLine" placeholder="请选择">
           <el-option
