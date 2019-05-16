@@ -5,7 +5,7 @@
         路线{{busLine}}客流高峰时刻分析（上行）
       </h3>
       <div class="heat-chart-wrapper">
-        <upChart :headerParams='headerParams'></upChart>
+        <upChart :headerParams='headerParams' :isUpdateUp="isUpdateUp" @isUpdateToUp="isUpdateToUp"></upChart>
       </div>
     </el-row>
     <el-row class="down-content">
@@ -13,7 +13,7 @@
         路线{{busLine}}客流高峰时刻分析（下行）
       </h3>
       <div class="heat-chart-wrapper">
-        <downChart :headerParams="headerParams"></downChart>
+        <downChart :headerParams="headerParams" :isUpdateDown="isUpdateDown" @isUpdateToDown="isUpdateToDown"></downChart>
       </div>
     </el-row>
   </div>
@@ -26,6 +26,12 @@ export default {
   props: {
     headerParams: {
       type: Object
+    },
+    isUpdateUp: {
+      type: Boolean
+    },
+    isUpdateDown: {
+      type: Boolean
     }
   },
   data () {
@@ -39,6 +45,12 @@ export default {
   },
   created () {},
   methods: {
+    isUpdateToUp () {
+      this.$emit('isUpdateFaUp', false);
+    },
+    isUpdateToDown () {
+      this.$emit('isUpdateFaDown', false);
+    }
   }
 };
 </script>

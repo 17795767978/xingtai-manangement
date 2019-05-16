@@ -26,6 +26,9 @@ export default {
     },
     tabTypeData: {
       type: Array
+    },
+    isUpdateDown: {
+      type: Boolean
     }
   },
   data () {
@@ -72,6 +75,21 @@ export default {
     },
     tabTypeData () {
       this.seeType();
+    },
+    isUpdateDown () {
+      console.log(this.isUpdateDown);
+      if (this.isUpdateDown) {
+        if (this.checkData.value.length !== 0 && this.checkData.date.length !== 0 && this.checkData.startTime.length !== 0 && this.checkData.endTime.length !== 0) {
+          this._fullRateAnalysisDown({
+            lineId: this.checkData.value,
+            type: '1',
+            dateTime: moment(this.checkData.date).format('YYYY-MM-DD'),
+            startHour: this.checkData.startTime.substring(0, 2),
+            endHour: this.checkData.endTime.substring(0, 2)
+          });
+        }
+        this.$emit('isUpdateToDown', false);
+      }
     }
   },
   methods: {

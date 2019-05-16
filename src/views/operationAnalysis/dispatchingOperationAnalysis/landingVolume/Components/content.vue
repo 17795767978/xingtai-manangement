@@ -40,70 +40,16 @@
 
 <script type="text/ecmascript-6">
 export default {
+  props: {
+    selectData: {
+      type: Array
+    }
+  },
   data () {
     return {
-      stations: ['南门', '钟楼', '北大街'],
-      tableData: [{
-        id: '1',
-        date: '2019-05-10',
-        stations: [1, 2, 3],
-        children: [{
-            date: '8时',
-            stations: [1, 2, 3]
-          },
-          {
-            date: '9时',
-            stations: [1, 2, 3]
-          }
-        ]
-      },
-      {
-        id: '2',
-        date: '2019-05-10',
-        stations: [1, 2, 3],
-        children: [{
-            id: 32,
-            date: '8时',
-            stations: [1, 2, 3]
-          },
-          {
-            id: 33,
-            date: '9时',
-            stations: [1, 2, 3]
-          }
-        ]
-      },
-      {
-        id: '3',
-        date: '2019-05-10',
-        stations: [1, 2, 3],
-        children: [{
-            date: '8时',
-            stations: [1, 2, 3]
-          },
-          {
-            date: '9时',
-            stations: [1, 2, 3]
-          }
-        ]
-      },
-      {
-        id: '4',
-        date: '2019-05-10',
-        stations: [1, 2, 3],
-        children: [{
-            date: '8时',
-            stations: [1, 2, 3]
-          },
-          {
-            date: '9时',
-            stations: [1, 2, 3]
-          }
-        ]
-      }
-      ],
+      stations: [],
+      tableData: [],
       getRowKeys(row) {
-        console.log(row.id);
         return row.id;
       },
       expands: []
@@ -115,16 +61,38 @@ export default {
   },
   created () {},
   mounted () {
-    this.expands.push(this.tableData[3].id);
+  },
+  watch: {
+    selectData: {
+      deep: true,
+      handler () {
+        // let arr = this.selectData.filter(item => item.)
+        let tableDataAll = [];
+        let lenAll = this.selectData.length;
+        let num = 0;
+        for (let i = 0; i < this.selectData.length - 1; i++) {
+          if (lenAll > num) {
+            let arr = this.selectData[num];
+            tableDataAll[i] = this.selectData.filter(item => item.staName === arr.staName && item.timeDate === arr.timeDate);
+            num += tableDataAll[i].length;
+          }
+        }
+        console.log(num);
+        console.log(tableDataAll);
+      }
+    }
   },
   methods: {
-    totel (row) {
-      let num = 0;
-      row.stations.forEach((item) => {
-        num += item;
-      });
-      return num;
+    selectTable (len, data) {
+      // let tableData = data;
     }
+    // totel (row) {
+    //   let num = 0;
+    //   row.stations.forEach((item) => {
+    //     num += item;
+    //   });
+    //   return num;
+    // }
     // getSummaries(param) {
     //   const { columns, data } = param;
     //   console.log(columns);

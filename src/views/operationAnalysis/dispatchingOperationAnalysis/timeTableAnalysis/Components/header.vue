@@ -37,46 +37,9 @@ export default {
         date: ''
       },
       options: [{
-        value: '0',
-        label: '黄金糕'
-      }, {
-        value: '1',
-        label: '双皮奶'
-      }, {
-        value: '2',
-        label: '蚵仔煎'
-      }, {
-        value: '3',
-        label: '龙须面'
-      }, {
-        value: '4',
-        label: '北京烤鸭'
-      }],
-      pickerOptions: {
-        disabledDate(time) {
-          return time.getTime() > Date.now();
-        },
-        shortcuts: [{
-          text: '今天',
-          onClick(picker) {
-            picker.$emit('pick', new Date());
-          }
-        }, {
-          text: '昨天',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24);
-            picker.$emit('pick', date);
-          }
-        }, {
-          text: '一周前',
-          onClick(picker) {
-            const date = new Date();
-            date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-            picker.$emit('pick', date);
-          }
-        }]
-      }
+        value: '0103',
+        label: '103'
+      }]
     };
   },
   methods: {

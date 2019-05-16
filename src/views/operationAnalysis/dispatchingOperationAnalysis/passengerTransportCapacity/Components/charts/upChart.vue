@@ -1,37 +1,101 @@
 <template>
-  <div class="up-chart-wrapper"
-    id="up-chart-wrapper"
-    :style="{width: '100%', height: '300px'}"
-    v-loading="loading"
-    element-loading-background="rgba(255, 255, 255, 0.5)"
-  >
+  <div>
+    <div
+      ref="upChartWrapper"
+      id="up-chart-wrapper"
+      :style="{width: '100%', height: '300px'}"
+      v-loading="loading"
+      element-loading-background="rgba(255, 255, 255, 0.5)"
+    >
+    </div>
+    <div
+      v-cloak
+      ref="animationDom"
+      v-if="echartsData.length === 0"
+      class="anim"
+      style="width: 100%; height: 330px; line-height:300px;text-align:center">
+      暂无数据
+    </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import {numberAnalysisUp} from 'server/interface';
+import {max} from 'utils/max';
+import moment from 'moment';
 export default {
   props: {
-    updata: {
-      type: Boolean
+    selectData: {
+      type: Object
     },
-    downdata: {
+    isUpdateUp: {
       type: Boolean
     }
   },
   data () {
     return {
-      loading: true
+      loading: true,
+      xAxisData: [],
+      echartsData: [],
+      legendNames: [],
+      echartsDataMax: ''
     };
   },
-  created () {},
+  created () {
+    this._numberAnalysisUp({
+      lineId: '0103',
+      dateTime: '2019-04-24',
+      type: '1'
+    });
+  },
   mounted () {
-    setTimeout(() => {
-      this.drawLine();
-      this.drawLine();
-      this.loading = false;
-    }, 2000);
+  },
+  watch: {
+    selectData: {
+      deep: true,
+      handler () {
+        if (this.selectData.value !== '' && this.selectData.date !== '') {
+          this._numberAnalysisUp({
+            lineId: this.selectData.value,
+            dateTime: moment(this.selectData.date).format('YYYY-MM-DD'),
+            type: '1'
+          });
+        }
+      }
+    },
+    isUpdateUp () {
+      if (this.isUpdateUp) {
+        if (this.selectData.value !== '' && this.selectData.date !== '') {
+          this._numberAnalysisUp({
+            lineId: this.selectData.value,
+            dateTime: moment(this.selectData.date).format('YYYY-MM-DD'),
+            type: '1'
+          });
+          this.$emit('isUpdateToUp', false);
+        }
+      }
+    }
   },
   methods: {
+    _numberAnalysisUp (params) {
+      numberAnalysisUp('zhfxpt/analysis/getUpLineCapacityChartDatas', params).then(res => {
+        this.xAxisData = res.data.data.xAxisNames;
+        this.echartsData = res.data.data.datas;
+        this.legendNames = res.data.data.legendNames;
+        if (this.echartsData.length > 0) {
+          this.echartsDataMax = max([max(this.echartsData[0]), max(this.echartsData[1]), max(this.echartsData[2])]);
+        }
+        if (this.echartsData.length > 0) {
+          this.$refs.upChartWrapper.style.display = 'block';
+          this.drawLine();
+          this.loading = false;
+        } else {
+          this.$message.warning('暂无数据');
+          this.$refs.upChartWrapper.style.display = 'none';
+          this.echartsDataMax = '';
+        }
+      });
+    },
     drawLine () {
       let upChart = this.$echarts.init(document.getElementById('up-chart-wrapper'));
       window.addEventListener('resize', () => upChart.resize());
@@ -40,7 +104,7 @@ export default {
             trigger: 'axis'
         },
         legend: {
-            data: ['运力', '运量', '最大车内人数']
+            data: this.legendNames
         },
         grid: {
             left: '3%',
@@ -56,30 +120,11 @@ export default {
         xAxis: {
             type: 'category',
             boundaryGap: false,
-            data: [
-              '06:00', '06:15', '06:30', '06:45',
-              '07:00', '07:15', '07:30', '07:45',
-              '08:00', '08:15', '08:30', '08:45',
-              '09:00', '09:15', '09:30', '09:45',
-              '10:00', '10:15', '10:30', '10:45',
-              '11:00', '11:15', '11:30', '11:45',
-              '12:00', '12:15', '12:30', '12:45',
-              '13:00', '13:15', '13:30', '13:45',
-              '14:00', '14:15', '14:30', '14:45',
-              '15:00', '15:15', '15:30', '15:45',
-              '16:00', '16:15', '16:30', '16:45',
-              '17:00', '17:15', '17:30', '17:45',
-              '18:00', '18:15', '18:30', '18:45',
-              '19:00', '19:15', '19:30', '19:45',
-              '20:00', '20:15', '20:30', '20:45',
-              '21:00', '21:15', '21:30', '21:45',
-              '22:00', '22:15', '22:30', '22:45',
-              '23:00', '23:15', '23:30', '23:45'
-            ]
+            data: this.xAxisData
         },
         yAxis: {
             type: 'value',
-            max: 500,
+            max: this.echartsDataMax + 100,
             min: 0,
             interval: 100
         },
@@ -87,17 +132,17 @@ export default {
             {
                 name: '运力',
                 type: 'line',
-                data: [120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210, 120, 132, 101, 134, 90, 230, 210]
+                data: this.echartsData[0]
             },
             {
                 name: '运量',
                 type: 'line',
-                data: [190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310, 190, 220, 330, 102, 290, 330, 310]
+                data: this.echartsData[1]
             },
             {
-                name: '最大车内人数',
+                name: '车内人数',
                 type: 'line',
-                data: [400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0, 400, 210, 350, 100, 90, 0]
+                data: this.echartsData[2]
             }
         ]
       });
@@ -107,4 +152,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+[v-cloak]
+{
+display: none;
+}
+.anim {
+  animation: zy 2.5s .15s linear forwards;
+}
+@keyframes zy {
+  0%   { transform: rotate(15deg);}
+  25%  {transform: rotate(-10deg);}
+  50%  { transform: rotate(5deg);}
+  75%  {transform: rotate(-5deg);}
+  100% { transform: rotate(0deg);}
+}
 </style>

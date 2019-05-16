@@ -6,7 +6,7 @@
     <div class="content">
       <h2 class="title"><span style="color: #f00">{{busLine}}{{station}}</span>车次时序图</h2>
       <h4 class="title time">刷新时间：{{timeNow}}</h4>
-      <contentWrapper :selectData="selectData" :isUpdate='isUpdate'></contentWrapper>
+      <contentWrapper :selectData="selectData" :isUpdate='isUpdate' @isUpdateTo="isUpdateTo"></contentWrapper>
       <!-- <Chart></Chart> -->
     </div>
   </div>
@@ -47,13 +47,15 @@ export default {
       let oldTime = moment(this.timeNow).valueOf();
       this.timeNow = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       let newTime = moment(this.timeNow).valueOf();
-      if (newTime - oldTime < 6000) {
-        this.$message.warning('已是最新数据，请勿重复操作');
-        this.isUpdate = false;
+      if (newTime - oldTime < 5000) {
+        this.$message.warning('短时间内请勿重复操作，请等待10秒');
       } else {
         this.isUpdate = true;
       }
       this.selectData = data;
+    },
+    isUpdateTo (isUpdate) {
+      this.isUpdate = false;
     }
   }
 };

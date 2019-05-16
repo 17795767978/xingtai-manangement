@@ -31,6 +31,9 @@ export default {
     },
     tabTypeData: {
       type: Array
+    },
+    isUpdateUp: {
+      type: Boolean
     }
   },
   data () {
@@ -84,6 +87,20 @@ export default {
       //   endHour: this.checkData.endTime.substring(0, 2)
       // });
       this.seeType();
+    },
+    isUpdateUp () {
+      if (this.isUpdateUp) {
+        if (this.checkData.value.length !== 0 && this.checkData.date.length !== 0 && this.checkData.startTime.length !== 0 && this.checkData.endTime.length !== 0) {
+          this._fullRateAnalysisUp({
+            lineId: this.checkData.value,
+            type: '1',
+            dateTime: moment(this.checkData.date).format('YYYY-MM-DD'),
+            startHour: this.checkData.startTime.substring(0, 2),
+            endHour: this.checkData.endTime.substring(0, 2)
+          });
+        }
+        this.$emit('isUpdateToUp', false);
+      }
     }
   },
   methods: {

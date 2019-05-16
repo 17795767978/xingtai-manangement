@@ -6,7 +6,7 @@
     <div class="content">
       <!-- <contentWrapper></contentWrapper> -->
       <h2 class="title"><span style="color: #f00">{{checkData.value}}</span>客流高峰断面分析</h2>
-      <Chart :checkData="checkData"></Chart>
+      <Chart :checkData="checkData" :isUpdate="isUpdate" @isUpdateTo="isUpdateTo"></Chart>
     </div>
   </div>
 </template>
@@ -15,12 +15,15 @@
 import headerNav from './Components/header';
 import Chart from './Components/chart';
 // import contentWrapper from './Components/content';
+import moment from 'moment';
 export default {
   name: 'sectionAnalysis',
   data () {
     return {
       busLine: '1路',
-      checkData: {}
+      checkData: {},
+      isUpdate: false,
+      nowTime: ''
     };
   },
   components: {
@@ -31,10 +34,28 @@ export default {
   mounted () {
     console.log(123);
   },
+  watch: {
+    checkData: {
+      deep: true,
+      handler (oldData, newData) {
+        this.nowTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      }
+    }
+  },
   methods: {
     configCheck (data) {
-      // console.log(data);
+      let oldTime = moment(this.nowTime).valueOf();
+      this.nowTime = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
+      let newTime = moment(this.nowTime).valueOf();
+      if (newTime - oldTime < 5000) {
+        this.$message.warning('短时间内请勿重复操作，请等待10秒');
+      } else {
+        this.isUpdate = true;
+      }
       this.checkData = data;
+    },
+    isUpdateTo () {
+      this.isUpdate = false;
     }
   }
 };

@@ -22,6 +22,9 @@ export default {
   props: {
     headerParams: {
       type: Object
+    },
+    isUpdateDown: {
+      type: Boolean
     }
   },
   data () {
@@ -65,6 +68,24 @@ export default {
           month,
           type: '1'
         });
+      }
+    },
+    isUpdateDown () {
+      console.log(this.isUpdateDown);
+      if (this.isUpdateDown) {
+        let month = '';
+        if (this.headerParams.date && this.headerParams.date === 'Invalid date') {
+          month = '';
+        } else if (this.headerParams.date && this.headerParams.date !== 'Invalid date') {
+          month = moment(this.headerParams.date).format('YYYY-MM');
+        }
+        this._timeTableAnalysisDown({
+          lineId: this.headerParams.value,
+          // lineId: '0103',
+          month,
+          type: '1'
+        });
+        this.$emit('isUpdateToDown', false);
       }
     }
   },

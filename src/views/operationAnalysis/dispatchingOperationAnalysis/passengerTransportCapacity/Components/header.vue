@@ -22,42 +22,24 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button type="warning" @click="onSubmit">重置</el-button>
+        <el-button type="warning" @click="onClear">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import moment from 'moment';
 export default {
   data() {
     return {
       formInline: {
-        value: '',
-        date: ''
+        value: '0103',
+        date: '2019-04-24'
       },
       options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
-      turnOptions: [{
-        value: '0',
-        label: '上行'
-      }, {
-        value: '1',
-        label: '下行'
+        value: '0103',
+        label: '103路'
       }],
       pickerOptions: {
         disabledDate(time) {
@@ -88,7 +70,14 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log('submit!');
+      this.formInline.date = moment(this.formInline.date).format('YYYY-MM-DD');
+      this.$emit('configCheck', this.formInline);
+    },
+    onClear () {
+      this.formInline = {
+        value: '',
+        date: ''
+      };
     }
   }
 };

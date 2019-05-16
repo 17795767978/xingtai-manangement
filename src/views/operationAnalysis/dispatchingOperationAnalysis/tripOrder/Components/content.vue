@@ -61,7 +61,8 @@ export default {
       }
     },
     isUpdate () {
-      if (this.isUpdate === true) {
+      console.log(this.isUpdate);
+      if (this.isUpdate) {
         this._tripOrder({
           lineId: this.selectData.value,
           dateTime: this.selectData.date,
@@ -70,6 +71,7 @@ export default {
           endHour: this.selectData.endTime.substring(0, 2)
         });
       }
+      this.$emit('isUpdateTo', false);
     }
   },
   methods: {

@@ -22,6 +22,9 @@ export default {
   props: {
     headerParams: {
       type: Object
+    },
+    isUpdateUp: {
+      type: Boolean
     }
   },
   data () {
@@ -41,10 +44,6 @@ export default {
     });
   },
   mounted () {
-    // setTimeout(() => {
-    //   this.drawLine();
-    // }, 2000);
-    // console.log(this.headerParams);
   },
   watch: {
     headerParams: {
@@ -64,6 +63,25 @@ export default {
           month,
           type: '1'
         });
+      }
+    },
+    isUpdateUp () {
+      console.log(this.isUpdateUp);
+      if (this.isUpdateUp) {
+        let month = '';
+        if (this.headerParams.date && this.headerParams.date === 'Invalid date') {
+          month = '';
+        } else if (this.headerParams.date && this.headerParams.date !== 'Invalid date') {
+          month = moment(this.headerParams.date).format('YYYY-MM');
+        }
+        console.log(this.headerParams.date);
+        this._timeTableAnalysisUp({
+          lineId: this.headerParams.value,
+          // lineId: '0103',
+          month,
+          type: '1'
+        });
+        this.$emit('isUpdateToUp', false);
       }
     }
   },

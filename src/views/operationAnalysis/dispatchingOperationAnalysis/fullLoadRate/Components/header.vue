@@ -138,7 +138,6 @@ export default {
       };
     },
     changeType () {
-      // console.log(this.tabType);
       this.$emit('tabTypeCheck', this.tabType);
     }
   }

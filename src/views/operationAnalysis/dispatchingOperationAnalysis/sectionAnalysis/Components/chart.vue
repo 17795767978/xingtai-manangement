@@ -21,6 +21,9 @@ export default {
   props: {
     checkData: {
       type: Object
+    },
+    isUpdate: {
+      type: Boolean
     }
   },
   data () {
@@ -54,6 +57,16 @@ export default {
             month: moment(this.checkData.date).format('YYYY-MM')
           });
         }
+      }
+    },
+    isUpdate () {
+      if (this.isUpdate) {
+        this._sectionAnalysis({
+          lineId: this.checkData.value,
+          type: this.checkData.turn,
+          month: moment(this.checkData.date).format('YYYY-MM')
+        });
+        this.$emit('isUpdateTo');
       }
     }
   },

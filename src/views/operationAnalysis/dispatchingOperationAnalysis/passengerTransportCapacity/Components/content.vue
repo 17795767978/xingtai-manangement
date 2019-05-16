@@ -5,7 +5,7 @@
         {{busLine}}客流运力运量分析（上行）
       </h3>
       <div class="heat-chart-wrapper">
-        <upChart></upChart>
+        <upChart :selectData="selectData" :isUpdateUp="isUpdateUp" @isUpdateToUp="isUpdateToUp"></upChart>
       </div>
     </el-row>
     <el-row class="down-content">
@@ -13,7 +13,7 @@
         {{busLine}}客流运力运量分析（下行）
       </h3>
       <div class="heat-chart-wrapper">
-        <downChart></downChart>
+        <downChart :selectData="selectData" :isUpdateDown="isUpdateDown" @isUpdateToDown="isUpdateToDown"></downChart>
       </div>
     </el-row>
   </div>
@@ -23,6 +23,17 @@
 import upChart from './charts/upChart';
 import downChart from './charts/downChart';
 export default {
+  props: {
+    selectData: {
+      type: Object
+    },
+    isUpdateUp: {
+      type: Boolean
+    },
+    isUpdateDown: {
+      type: Boolean
+    }
+  },
   data () {
     return {
       busLine: '1路'
@@ -34,6 +45,12 @@ export default {
   },
   created () {},
   methods: {
+    isUpdateToUp () {
+      this.$emit('isUpdateFaUp', false);
+    },
+    isUpdateToDown () {
+      this.$emit('isUpdateFaDown', false);
+    }
   }
 };
 </script>

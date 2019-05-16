@@ -5,7 +5,7 @@
         路线{{busLine}}客流高峰时刻分析（上行）
       </h3>
       <div class="heat-chart-wrapper">
-        <upChart :checkData="checkData" :tabTypeData="tabTypeData"></upChart>
+        <upChart :checkData="checkData" :tabTypeData="tabTypeData" :isUpdateUp="isUpdateUp" @isUpdateToUp="isUpdateToUp"></upChart>
       </div>
     </el-row>
     <el-row class="down-content">
@@ -13,7 +13,7 @@
         路线{{busLine}}客流高峰时刻分析（下行）
       </h3>
       <div class="heat-chart-wrapper">
-        <downChart :checkData="checkData" :tabTypeData="tabTypeData"></downChart>
+        <downChart :checkData="checkData" :tabTypeData="tabTypeData" :isUpdateDown="isUpdateDown" @isUpdateToDown="isUpdateToDown"></downChart>
       </div>
     </el-row>
   </div>
@@ -34,6 +34,12 @@ export default {
     },
     tabTypeData: {
       type: Array
+    },
+    isUpdateUp: {
+      type: Boolean
+    },
+    isUpdateDown: {
+      type: Boolean
     }
   },
   components: {
@@ -42,6 +48,12 @@ export default {
   },
   created () {},
   methods: {
+    isUpdateToUp () {
+      this.$emit('isUpdateFaUp', false);
+    },
+    isUpdateToDown () {
+      this.$emit('isUpdateFaDown', false);
+    }
   }
 };
 </script>

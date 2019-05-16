@@ -1,10 +1,10 @@
 <template>
   <div class="trip-order">
     <header>
-      <headerNav></headerNav>
+      <headerNav @configTableData="configTableData"></headerNav>
     </header>
     <div class="content">
-      <contentWrapper></contentWrapper>
+      <contentWrapper :selectData="selectData"></contentWrapper>
     </div>
   </div>
 </template>
@@ -16,13 +16,19 @@ export default {
   name: 'tripOrder',
   data () {
     return {
-      busLine: '1路',
-      station: '<kobe>'
+      selectData: []
     };
   },
-  components: {
+    components: {
     headerNav,
     contentWrapper
+  },
+  created () {
+  },
+  methods: {
+    configTableData (data) {
+      this.selectData = data;
+    }
   }
 };
 </script>

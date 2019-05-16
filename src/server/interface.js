@@ -124,3 +124,28 @@ export function fullRateAnalysisDown (url, params) {
 export function tripOrder (url, params) {
   return api.post(url, params);
 }
+
+// 线路运力运量车内人数分析（上行）
+export function numberAnalysisUp (url, params) {
+  return api.post(url, params);
+}
+
+// 线路运力运量车内人数分析（下行）
+export function numberAnalysisDown (url, params) {
+  return api.post(url, params);
+}
+
+// 线路站点登降量查询
+export function lineStation (url, params) {
+  return api.post(url, params);
+}
+
+// 站点信息
+export function stationList (url, params) {
+  return api.post(url, params);
+}
+
+// 线路信息
+export function lineList (url, params) {
+  return api.post(url, params);
+}
