@@ -149,3 +149,8 @@ export function stationList (url, params) {
 export function lineList (url, params) {
   return api.post(url, params);
 }
+
+// 线路站间运行时间分析
+export function runtimeAnalysis (url, params) {
+  return api.post(url, params);
+}

@@ -49,7 +49,7 @@ export default {
       let oldTime = this.timeNow;
       this.timeNow = moment(Date.now()).valueOf();
       if (this.timeNow - oldTime < 5000) {
-        this.$message.warning('短时间内请勿重复操作，请等待10秒');
+        this.$message.warning('短时间内请勿重复操作');
       } else {
         this.isUpdateUp = true;
         this.isUpdateDown = true;

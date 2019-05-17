@@ -97,9 +97,9 @@ export default {
     return {
       formInline: {
         station: ['000e0005d3f84a8290aa,0483b1d9acb7481a97e2', '01a0051ae47743199d7c'],
-        date: [],
-        startTime: '',
-        endTime: ''
+        date: ['2019-04-01', '2019-05-01'],
+        startTime: '00:00',
+        endTime: '23:00'
       },
       loading: false,
       searchStation: '',
@@ -113,11 +113,11 @@ export default {
     this._lineList();
     this._stationList();
     this._lineStation({
-      startDate: '',
-      endDate: '',
-      stationIds: [],
-      startHour: '',
-      endHour: ''
+      startDate: this.formInline.date[0],
+      endDate: this.formInline.date[1],
+      stationIds: this.formInline.station,
+      startHour: this.formInline.startTime.substring(0, 2),
+      endHour: this.formInline.endTime.substring(0, 2)
     });
   },
   watch: {

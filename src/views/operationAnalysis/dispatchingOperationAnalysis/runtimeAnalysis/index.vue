@@ -1,11 +1,11 @@
 <template>
   <div class="rantime-analysis">
     <header>
-      <headerNav></headerNav>
+      <headerNav @configCheck="configCheck"></headerNav>
     </header>
     <div class="content">
-      <h2 class="title">路线({{busLine}})站间运行时间分析({{turn}})</h2>
-      <contentWrapper></contentWrapper>
+      <h2 class="title">站间运行时间分析</h2>
+      <contentWrapper :selectData="selectData" :isUpdate="isUpdate" @isUpdateTo="isUpdateTo"></contentWrapper>
     </div>
   </div>
 </template>
@@ -13,20 +13,39 @@
 <script type="text/ecmascript-6">
 import headerNav from './Components/header';
 import contentWrapper from './Components/content';
+import moment from 'moment';
 export default {
   name: 'rauntimeAnalysis',
   data () {
     return {
-      busLine: '1路',
-      turn: '上行'
+      selectData: {},
+      isUpdate: false,
+      timeNow: ''
     };
   },
   components: {
     headerNav,
     contentWrapper
   },
-  mounted () {
-    console.log(123);
+  watch: {
+    selectData () {
+      this.timeNow = moment(Date.now()).valueOf();
+    }
+  },
+  methods: {
+    configCheck (data) {
+      this.selectData = data;
+      let oldTime = this.timeNow;
+      this.timeNow = moment(Date.now()).valueOf();
+      if (this.timeNow - oldTime < 5000) {
+        this.$message.warning('短时间内请勿重复操作');
+      } else {
+        this.isUpdate = true;
+      }
+    },
+    isUpdateTo () {
+      this.isUpdate = false;
+    }
   }
 };
 </script>

@@ -4,7 +4,7 @@
       <el-form-item label="选择路线">
         <el-select v-model="formInline.value" placeholder="请选择">
           <el-option
-            v-for="item in options"
+            v-for="item in lineOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -12,7 +12,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="方向">
-        <el-select v-model="formInline.value" placeholder="请选择">
+        <el-select v-model="formInline.turn" placeholder="请选择">
           <el-option
             v-for="item in turnOptions"
             :key="item.value"
@@ -24,49 +24,35 @@
       <el-form-item label="月份">
         <el-date-picker
           v-model="formInline.date"
-          align="right"
-          type="date"
-          placeholder="选择日期"
-          :picker-options="pickerOptions">
+          type="month"
+          placeholder="选择月">
         </el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="onSubmit">查询</el-button>
-        <el-button type="warning" @click="onSubmit">重置</el-button>
+        <el-button type="warning" @click="onClear">重置</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import {lineList} from 'server/interface';
+import moment from 'moment';
 export default {
   data() {
     return {
       formInline: {
-        value: '',
-        date: ''
+        value: '0103',
+        date: '2019-05',
+        turn: '1'
       },
-      options: [{
-        value: '选项1',
-        label: '黄金糕'
-      }, {
-        value: '选项2',
-        label: '双皮奶'
-      }, {
-        value: '选项3',
-        label: '蚵仔煎'
-      }, {
-        value: '选项4',
-        label: '龙须面'
-      }, {
-        value: '选项5',
-        label: '北京烤鸭'
-      }],
+      lineOptions: [],
       turnOptions: [{
-        value: '0',
+        value: '1',
         label: '上行'
       }, {
-        value: '1',
+        value: '2',
         label: '下行'
       }],
       pickerOptions: {
@@ -96,9 +82,33 @@ export default {
       }
     };
   },
+  created () {
+    this._lineList();
+  },
   methods: {
+    _lineList () {
+      lineList('zhfxpt/analysis/getLines').then(res => {
+        let arr = res.data.data;
+        arr.forEach(item => {
+          this.lineOptions.push({
+            value: item.lineUuid,
+            label: item.lineName
+          });
+        });
+      });
+    },
     onSubmit() {
-      console.log('submit!');
+      this.formInline.date = moment(this.formInline.date).format('YYYY-MM');
+      this.$emit('configCheck', this.formInline);
+      console.log(this.formInline);
+    },
+    onClear () {
+      this.formInline = {
+        value: '0103',
+        date: '2019-05',
+        turn: '1'
+      };
+      this.$emit('configCheck', this.formInline);
     }
   }
 };

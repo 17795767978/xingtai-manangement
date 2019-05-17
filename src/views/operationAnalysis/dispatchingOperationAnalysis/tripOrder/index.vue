@@ -48,7 +48,7 @@ export default {
       this.timeNow = moment(new Date()).format('YYYY-MM-DD HH:mm:ss');
       let newTime = moment(this.timeNow).valueOf();
       if (newTime - oldTime < 5000) {
-        this.$message.warning('短时间内请勿重复操作，请等待10秒');
+        this.$message.warning('短时间内请勿重复操作');
       } else {
         this.isUpdate = true;
       }

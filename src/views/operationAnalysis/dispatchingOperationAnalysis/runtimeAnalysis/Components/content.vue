@@ -1,20 +1,107 @@
 <template>
-  <div id="echart-wrapper" :style="{width: '100%', height: '500px'}"></div>
+  <div>
+    <div id="echart-wrapper" ref="echartWrapper" :style="{width: '100%', height: '500px'}"></div>
+    <div v-if="echartData.length === 0" class="anim" style="width: 100%; height: 300px; line-height:300px;text-align:center">
+      暂无数据
+    </div>
+  </div>
 </template>
 
 <script type="text/ecmascript-6">
+import {runtimeAnalysis} from 'server/interface';
+import {max} from 'utils/max';
+import moment from 'moment';
 export default {
-  data () {
-    return {};
+  props: {
+    selectData: {
+      type: Object
+    },
+    isUpdate: {
+      type: Boolean
+    }
   },
-  created () {},
-  mounted () {
-    this.dawnLine();
+  data () {
+    return {
+      echartData: [],
+      legendNames: [],
+      xAxisNames: [],
+      maxData: ''
+    };
+  },
+  created () {
+    this._runtimeAnalysis({
+      lineId: '0103',
+      type: '1',
+      month: '2019-05'
+    });
+  },
+  watch: {
+    selectData: {
+      deep: true,
+      handler () {
+        if (this.selectData.value !== '' && this.selectData.turn !== '' && this.selectData.month !== '') {
+          this._runtimeAnalysis({
+            lineId: this.selectData.value,
+            type: this.selectData.turn,
+            month: moment(this.selectData.date).format('YYYY-MM')
+          });
+        }
+      }
+    },
+    isUpdate () {
+      if (this.isUpdate) {
+        if (this.selectData.value !== '' && this.selectData.turn !== '' && this.selectData.month !== '') {
+          this._runtimeAnalysis({
+            lineId: this.selectData.value,
+            type: this.selectData.turn,
+            month: moment(this.selectData.date).format('YYYY-MM')
+          });
+        }
+        this.$emit('isUpdateTo');
+      }
+    }
   },
   methods: {
+    _runtimeAnalysis (params) {
+      runtimeAnalysis('zhfxpt/analysis/getLineBetweenStationsRunningTimeChartDatas', params).then(res => {
+        this.echartData = res.data.data.datas;
+        this.legendNames = res.data.data.legendNames;
+        this.xAxisNames = res.data.data.xAxisNames;
+        if (this.echartData.length > 0) {
+          let maxBefore = [];
+          this.echartData.forEach(item => {
+            maxBefore.push(max(item));
+          });
+          this.maxData = max(maxBefore) * this.echartData.length;
+          this.$refs.echartWrapper.style.display = 'block';
+          this.dawnLine();
+        } else {
+          this.$message.warning('暂无数据');
+          this.$refs.echartWrapper.style.display = 'none';
+          this.maxData = '';
+        }
+      });
+    },
     dawnLine () {
       let chart = this.$echarts.init(document.getElementById('echart-wrapper'));
       window.addEventListener('resize', () => { chart.resize(); });
+      let series = [];
+      this.echartData.forEach((item, index) => {
+        series.push({
+          name: this.legendNames[index],
+          data: item,
+          type: 'bar',
+          stack: '总量',
+          barWidth: '20',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'inside'
+              }
+          }
+        });
+      });
+      console.log(series);
       chart.setOption({
         tooltip: {
         trigger: 'axis',
@@ -23,7 +110,7 @@ export default {
         }
       },
       legend: {
-          data: ['钟楼1', '钟楼2', '钟楼3', '钟楼4', '钟楼5', '钟楼6', '钟楼7', '钟楼8', '钟楼9', '钟楼10', '钟楼11', '钟楼12', '钟楼13', '钟楼14', '钟楼15', '钟楼16', '钟楼17', '钟楼18', '钟楼19', '钟楼20', '钟楼21', '钟楼22', '钟楼23', '钟楼24', '钟楼25']
+          data: this.legendNames
       },
       grid: {
           left: '3%',
@@ -33,323 +120,15 @@ export default {
       },
       xAxis: {
           type: 'value',
-          max: 300,
+          max: this.maxData,
           min: 0,
-          interval: 10
+          interval: Math.floor(this.maxData / 10)
       },
       yAxis: {
           type: 'category',
-          data: ['5-7', '7-9', '9-11', '11-13', '13-15', '15-17', '17-19', '19-21', '21-23']
+          data: this.xAxisNames
       },
-      series: [
-          {
-              name: '钟楼1',
-              type: 'bar',
-              stack: '总量',
-              barWidth: '20',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 1, 9, 2, 3, 4, 5, 7]
-          },
-          {
-              name: '钟楼2',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 1, 9, 2, 3, 4, 5, 7]
-          },
-          {
-              name: '钟楼3',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 1, 9, 2, 3, 4, 5, 7]
-          },
-          {
-              name: '钟楼4',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 1, 9, 2, 3, 4, 5, 7]
-          },
-          {
-              name: '钟楼5',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          },
-          {
-              name: '钟楼6',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          },
-          {
-              name: '钟楼7',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼8',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼9',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼10',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼11',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼12',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼13',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼14',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼15',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼16',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼17',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼18',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼19',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼20',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼21',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'insideRight'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼22',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼23',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼24',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }, {
-              name: '钟楼25',
-              type: 'bar',
-              barWidth: '20',
-              stack: '总量',
-              label: {
-                  normal: {
-                      show: true,
-                      position: 'inside'
-                  }
-              },
-              data: [10, 5, 3, 9, 2, 3, 4, 5, 7]
-          }
-      ]
+      series
       });
     }
   }
@@ -357,4 +136,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+[v-cloak]
+{
+display: none;
+}
+.anim {
+  animation: zy 2.5s .15s linear forwards;
+}
+@keyframes zy {
+  0%   { transform: rotate(15deg);}
+  25%  {transform: rotate(-10deg);}
+  50%  { transform: rotate(5deg);}
+  75%  {transform: rotate(-5deg);}
+  100% { transform: rotate(0deg);}
+}
 </style>
