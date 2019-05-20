@@ -1,10 +1,10 @@
 <template>
   <div class="trip-order">
     <header>
-      <headerNav @configTableData="configTableData"></headerNav>
+      <headerNav @configTableData="configTableData" @selectStation="selectStation"></headerNav>
     </header>
     <div class="content">
-      <contentWrapper :selectData="selectData"></contentWrapper>
+      <contentWrapper :selectData="selectData" :selectStations="selectStations"></contentWrapper>
     </div>
   </div>
 </template>
@@ -16,7 +16,8 @@ export default {
   name: 'tripOrder',
   data () {
     return {
-      selectData: []
+      selectData: [],
+      selectStations: []
     };
   },
     components: {
@@ -28,6 +29,9 @@ export default {
   methods: {
     configTableData (data) {
       this.selectData = data;
+    },
+    selectStation (data) {
+      this.selectStations = data;
     }
   }
 };
