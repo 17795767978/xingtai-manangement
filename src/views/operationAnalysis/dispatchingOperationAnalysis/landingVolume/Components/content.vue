@@ -1,20 +1,25 @@
 <template>
   <div class="content-wrapper">
-    <el-row :gutter="10">
+    <el-row :gutter="24">
       <el-col :span="12">
         <el-table
           :data="upTableData"
           border
+          :summary-method="getSummariesUp"
+          show-summary
           class="inside-table"
           @expand-change="rowData"
-          style="width: 100%;">
+          style="width: 100%;"
+          max-height="691"
+          >
           <el-table-column type="expand" width="60" fixed>
             <template slot-scope="props">
               <el-table
                 :show-header="false"
                 :data="props.row.tableData"
                 ref="insideTable"
-                style="width: 100%;">
+                style="width: 100%;"
+                >
                 <el-table-column
                   align="center"
                   property="hour"
@@ -98,9 +103,59 @@
         <el-table
           :data="downTableData"
           border
-          style="width: 100%">
+          :summary-method="getSummariesDown"
+          show-summary
+          @expand-change="rowData"
+          class="inside-table"
+          style="width: 100%"
+          max-height="691"
+          >
           <el-table-column type="expand" width="60" fixed>
             <template slot-scope="props">
+              <el-table
+                :show-header="false"
+                :data="props.row.tableData"
+                ref="insideTable"
+                style="width: 100%;"
+                >
+                <el-table-column
+                  align="center"
+                  property="hour"
+                  label="时刻"
+                  width="180">
+                  <template slot-scope="scope">
+                    {{scope.row.hour}}时
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  align="center"
+                  v-for="(station, index) in stations"
+                  :key="index"
+                  :label="station"
+                >
+                  <template slot-scope="scope">
+                    {{scope.row.numAll[index] || '0'}}
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  v-if="emptyStations.length > 0"
+                  align="center"
+                  v-for="emptyStation in emptyStations"
+                  :key="emptyStation"
+                  :label="emptyStation"
+                >
+                  <template slot-scope="scope">
+                    0
+                  </template>
+                </el-table-column>
+                <el-table-column
+                  align="center"
+                  width="59"
+                  label="总数"
+                  fixed="right"
+                  prop="totle">
+                </el-table-column>
+              </el-table>
             </template>
           </el-table-column>
           <el-table-column
@@ -143,15 +198,6 @@
         </el-table>
       </el-col>
     </el-row>
-  <!-- <div class="Summaries"> -->
-    <!-- <div class="title">总计</div>
-    <el-row :gutter="0" class="item">
-      <el-col :span="24 / getSummaries.length" class="item-stlye" v-for="(item, index) in getSummaries" :key="index">
-        {{item}}
-      </el-col>
-    </el-row>
-    <div class="totle">{{totle}}</div> -->
-  <!-- </div> -->
   </div>
 </template>
 
@@ -191,13 +237,8 @@ export default {
     selectData: {
       deep: true,
       handler () {
-        // console.log(this.selectData);
         this.upTableData = this.getTableData(true);
         this.downTableData = this.getTableData(false);
-        // if (this.$refs.insideTable) {
-        //   this.$refs.insideTable.style.padding = '0';
-        // }
-        // table的数组初始化
       }
     }
   },
@@ -226,6 +267,8 @@ export default {
         tableDataAll[index].date = item;
         tableDataAll[index].tableData = this.selectData.filter(list => list.timeDate === item);
       });
+      console.log(tableDataAll);
+      // console.log(this.selectData.filter(list => list.timeDate === dateArr[dateArr.length - 1]));
       tableDataAll.forEach((data, index) => {
         stationDate[index] = [];
       });
@@ -269,34 +312,18 @@ export default {
       });
       // tableData组合完成
       // dataTable = tableDataAll;
+      console.log(tableDataAll);
       tableDataAll.forEach(itm => {
-        itm.tableData = this.rowTableData(itm.tableData);
+        if (bool) {
+          itm.tableData = this.rowTableData(itm.tableData, true);
+        } else {
+          itm.tableData = this.rowTableData(itm.tableData, false);
+        }
       });
       console.log(tableDataAll);
       return tableDataAll;
-      // 综合统计
-      // let stationAllArr = [];
-      // let itemSummaries = [];
-      // stationArr.forEach((station, index) => {
-      //   stationAllArr[index] = this.selectData.filter(select => select.staName === station);
-      // });
-      // console.log(stationAllArr);
-      // stationAllArr.forEach((arrList, index) => {
-      //   itemSummaries[index] = arrList.map(item => item.getOnNumber);
-      // });
-      // console.log(itemSummaries);
-      // itemSummaries.forEach((num, index) => {
-      //   if (num.length !== 0) {
-      //     summaries[index] = num.reduce((prev, curr) => prev + curr);
-      //   }
-      // });
-      // if (this.getSummaries.length !== 0) {
-      //   totleNum = summaries.reduce((prev, curr) => prev + curr);
-      // }
     },
-    rowTableData (data) {
-      // table的初始化
-      // console.log(data);
+    rowTableData (data, isBool) {
       // 根据station划分data
       let dataOptions = [];
       let tableData = [];
@@ -308,7 +335,7 @@ export default {
         dataOptions[index] = data.filter(sta => sta.staName === itm);
       });
       dataOptions.forEach(option => {
-        hoursArr = uniq(option.map(item => item.timeHour));
+        hoursArr = option.map(item => item.timeHour);
       });
       hoursArr.forEach((data, index) => {
         tableData[index] = {};
@@ -320,13 +347,66 @@ export default {
       });
       dataOptions.forEach((option, optionIndex) => {
         hoursArr.forEach((hour, hourIndex) => {
-          tableData[hourIndex].numAll[optionIndex] = option.map(i => i.getOnNumber)[hourIndex];
+          if (isBool) {
+            tableData[hourIndex].numAll[optionIndex] = option.map(i => i.getOnNumber)[hourIndex];
+          } else {
+            tableData[hourIndex].numAll[optionIndex] = option.map(i => i.getOffNumber)[hourIndex];
+          }
         });
+      });
+      // 行总数
+      tableData.forEach(itm => {
+        let arr = itm.numAll.filter(num => num !== undefined);
+        itm.totle = arr.reduce((prev, next) => prev + next);
       });
       return tableData;
     },
+    // 总数计算 上行
+    getSummariesUp (param) {
+      let dataNum = this.getSummaries(true);
+      return dataNum;
+    },
+    // 总数计算 下行
+    getSummariesDown (param) {
+      let dataNum = this.getSummaries(false);
+      return dataNum;
+    },
+    // 总数就算方法
+    getSummaries (isBool) {
+      // 数组标题
+      let dataTitle = ['总计', '-'];
+      // 数组空项
+      let dataServ = [];
+      // 数组数据项
+      let dataCont = [];
+      // 总数据数组
+      let totleData = [];
+      dataServ.length = this.emptyStations.length;
+      this.emptyStations.forEach((stations, index) => {
+        dataServ[index] = 0;
+      });
+      dataCont.length = this.stations.length;
+      this.stations.forEach((station, index) => {
+        let stationArr = this.selectData.filter(itm => itm.staName === station);
+        let numArr;
+        if (isBool) {
+          numArr = stationArr.map(list => list.getOnNumber);
+        } else {
+          numArr = stationArr.map(list => list.getOffNumber);
+        }
+        dataCont[index] = numArr.reduce((prev, next) => prev + next);
+      });
+      let dataArr = dataTitle.concat(dataCont);
+      totleData = dataArr.concat(dataServ);
+      if (dataCont.length === 1) {
+        totleData[totleData.length] = dataCont[0];
+      } else if (dataCont.length > 1) {
+        totleData[totleData.length] = dataCont.reduce((prev, next) => prev + next);
+      }
+      // console.log(totleData);
+      return totleData;
+    },
     rowData (row, expandedRows) {
-      // console.log(row);
     }
   }
 };
@@ -335,7 +415,6 @@ export default {
 <style lang="scss" scoped>
 .content-wrapper {
   width: 100%;
-  padding: 20px 20px;
   box-sizing: border-box;
   .Summaries {
     width: 50%;
