@@ -24,6 +24,7 @@
     "sortablejs": "^1.8.0-rc1",
     "vue": "^2.5.2",
     "vue-baidu-map": "^0.21.20",
+    "vue-perfect-scrollbar": "^0.1.0",
     "vue-router": "^3.0.1",
     "vue-seamless-scroll": "^1.1.16",
     "vuex": "^3.0.1"

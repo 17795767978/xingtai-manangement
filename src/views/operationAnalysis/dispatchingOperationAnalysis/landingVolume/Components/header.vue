@@ -125,22 +125,10 @@ export default {
     });
   },
   watch: {
-    // searchStation () {
-    //   this.searchStationOptions = this.stationOptions.filter(item => item.label.indexOf(this.searchStation) !== -1);
-    //   console.log(this.searchStationOptions.length);
-    // },
-    // 'formInline.station' () {
-    //   let len = this.formInline.station.length;
-    //   if (this.$refs.elSelectWrapperDown && len < 8) {
-    //     this.$refs.elSelectWrapperDown.$el.childNodes[1].style.width = `${len * 200 + 200}px`;
-    //   } else if (this.$refs.elSelectWrapperUp && len < 6) {
-    //     this.$refs.elSelectWrapperUp.$el.childNodes[1].style.width = `${len * 150 + 200}px`;
-    //   }
-    // }
   },
   methods: {
     _lineList () {
-      lineList('zhfxpt/analysis/getLines').then(res => {
+      lineList('api/bus/line/list').then(res => {
         let arr = res.data.data;
         arr.forEach(item => {
           this.lineOptions.push({

@@ -17,6 +17,8 @@ const fullLoadRate = () => import('views/operationAnalysis/dispatchingOperationA
 const landingVolume = () => import('views/operationAnalysis/dispatchingOperationAnalysis/landingVolume/');
 const runtimeAnalysis = () => import('views/operationAnalysis/dispatchingOperationAnalysis/runtimeAnalysis/');
 const passengerTransportCapacity = () => import('views/operationAnalysis/dispatchingOperationAnalysis/passengerTransportCapacity/');
+const fatigueMonitoring = () => import('views/operationAnalysis/fatigueMonitoring/');
+const alarmCenter = () => import('views/operationAnalysis/fatigueMonitoring/alarmCenter/');
 const safetySupervision = () => import('views/operationAnalysis/safetySupervision/');
 const vehicleFaultAlarm = () => import('views/operationAnalysis/safetySupervision/vehicleFaultAlarm');
 const realTimeDashboard = () => import('views/operationAnalysis/safetySupervision/realTimeDashboard');
@@ -185,6 +187,35 @@ export const constantRouterMap = [
               icon: 'fa fa-dashboard'
             }
           }
+        ]
+      },
+      {
+        path: '/fatigue-monitoring',
+        component: fatigueMonitoring,
+        name: 'fatigueMonitoring',
+        meta: {
+          title: '疲劳监测',
+          icon: 'fa fa-television'
+        },
+        children: [
+          {
+            path: '/operation/fatigue-monitoring/alarm-center',
+            component: alarmCenter,
+            name: 'alarmCenter',
+            meta: {
+              title: '报警中心',
+              icon: 'fa fa-bell'
+            }
+          }
+          // {
+          //   path: '/operation/safety-supervision/real-time-dashboard',
+          //   component: realTimeDashboard,
+          //   name: 'realTimeDashboard',
+          //   meta: {
+          //     title: '实时仪表盘',
+          //     icon: 'fa fa-dashboard'
+          //   }
+          // }
         ]
       }
     ]

@@ -154,3 +154,16 @@ export function lineList (url, params) {
 export function runtimeAnalysis (url, params) {
   return api.post(url, params);
 }
+
+// 报警中心-组织线路车辆树
+export function lineTree (url, params) {
+  return api.post(url, params);
+}
+// 报警中心-列表
+export function tableList (url, params) {
+  return api.post(url, params);
+}
+// 报警中心-报警类型
+export function alarmType (url, params) {
+  return api.post(url, params);
+}

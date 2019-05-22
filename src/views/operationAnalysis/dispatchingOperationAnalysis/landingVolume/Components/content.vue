@@ -267,7 +267,6 @@ export default {
         tableDataAll[index].date = item;
         tableDataAll[index].tableData = this.selectData.filter(list => list.timeDate === item);
       });
-      console.log(tableDataAll);
       // console.log(this.selectData.filter(list => list.timeDate === dateArr[dateArr.length - 1]));
       tableDataAll.forEach((data, index) => {
         stationDate[index] = [];
@@ -312,7 +311,6 @@ export default {
       });
       // tableData组合完成
       // dataTable = tableDataAll;
-      console.log(tableDataAll);
       tableDataAll.forEach(itm => {
         if (bool) {
           itm.tableData = this.rowTableData(itm.tableData, true);
@@ -320,7 +318,6 @@ export default {
           itm.tableData = this.rowTableData(itm.tableData, false);
         }
       });
-      console.log(tableDataAll);
       return tableDataAll;
     },
     rowTableData (data, isBool) {
@@ -334,8 +331,12 @@ export default {
       this.stations.forEach((itm, index) => {
         dataOptions[index] = data.filter(sta => sta.staName === itm);
       });
+      console.log(dataOptions);
       dataOptions.forEach(option => {
-        hoursArr = option.map(item => item.timeHour);
+        if (option.length !== 0) {
+          hoursArr = option.map(item => item.timeHour);
+        }
+        // hoursArr = option.map(item => item.timeHour);
       });
       hoursArr.forEach((data, index) => {
         tableData[index] = {};
@@ -359,6 +360,7 @@ export default {
         let arr = itm.numAll.filter(num => num !== undefined);
         itm.totle = arr.reduce((prev, next) => prev + next);
       });
+      // console.log(tableData);
       return tableData;
     },
     // 总数计算 上行
