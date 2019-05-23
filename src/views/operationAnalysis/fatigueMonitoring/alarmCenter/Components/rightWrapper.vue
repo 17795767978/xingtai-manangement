@@ -45,7 +45,7 @@
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button type="warning" @click="onClear">重置</el-button>
-          <el-button type="success" @click="onSave">导出</el-button>
+          <!-- <el-button type="success" @click="onSave">导出</el-button> -->
         </el-form-item>
       </el-form>
     </div>
@@ -189,6 +189,16 @@ export default {
       pageNum: 1
     });
   },
+  mounted () {
+    let dataNow = new Date();
+    let endTime = dataNow.getTime() - 3600 * 24 * 7 * 1000;
+    let timeStart = moment(endTime).format('YYYY-MM-DD HH:MM:SS');
+    let timeEnd = moment(dataNow).format('YYYY-MM-DD HH:MM:SS');
+    setTimeout(() => {
+      this.formInline.timeValue = [timeStart, timeEnd];
+    }, 20);
+    // console.log(this.formInline);
+  },
   watch: {
     selectCarData: {
       deep: true,
@@ -275,7 +285,14 @@ export default {
         pageNum: val
       });
     },
-    handleClick () {
+    handleClick (row) {
+      console.log(row);
+      this.$router.push({
+        name: 'alarmContent',
+        query: {
+          warnUuid: row.warnUuid
+        }
+      });
     },
     onSubmit () {
       this.formInline.timeValue = this.formInline.timeValue.map(time => {
@@ -297,8 +314,23 @@ export default {
       });
       console.log(this.formInline.timeValue);
     },
-    onClear () {},
-    onSave () {}
+    onClear () {
+      let dataNow = new Date();
+      let endTime = dataNow.getTime() - 3600 * 24 * 7 * 1000;
+      this.formInline = {
+        orgId: '',
+        lineIdId: '',
+        devCode: '',
+        busPlateNumber: '',
+        busUuid: '',
+        busSelfCode: '',
+        warnLevel: '',
+        warnTypeId: [],
+        timeValue: [moment(endTime).format('YYYY-MM-DD HH:MM:SS'), moment(dataNow).format('YYYY-MM-DD HH:MM:SS')]
+      };
+      this.$emit('clear');
+    }
+    // onSave () {}
   }
 };
 </script>

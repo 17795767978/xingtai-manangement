@@ -22,6 +22,11 @@
 <script type="text/ecmascript-6">
 import {lineTree} from 'server/interface';
 export default {
+  props: {
+    isClear: {
+      type: Boolean
+    }
+  },
   data () {
     return {
       searchCode: '',
@@ -38,6 +43,12 @@ export default {
   watch: {
     searchCode(val) {
       this.$refs.treeLine.filter(val);
+    },
+    isClear () {
+      if (this.isClear) {
+        this._lineTree();
+      }
+      this.$emit('isClearTo');
     }
   },
 

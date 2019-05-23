@@ -150,6 +150,11 @@ export function lineList (url, params) {
   return api.post(url, params);
 }
 
+// 机构信息
+export function comList (url, params) {
+  return api.post(url, params);
+}
+
 // 线路站间运行时间分析
 export function runtimeAnalysis (url, params) {
   return api.post(url, params);
@@ -165,5 +170,21 @@ export function tableList (url, params) {
 }
 // 报警中心-报警类型
 export function alarmType (url, params) {
+  return api.post(url, params);
+}
+// 报警中心-详情
+export function warnInfoDetail (url, params) {
+  return api.post(url, params);
+}
+// 设备在线率
+export function onLineRate (url, params) {
+  return api.post(url, params);
+}
+// 线路设备状态列表
+export function statusTable (url, params) {
+  return api.post(url, params);
+}
+// 各线路下的设备状态
+export function lineStatus (url, params) {
   return api.post(url, params);
 }

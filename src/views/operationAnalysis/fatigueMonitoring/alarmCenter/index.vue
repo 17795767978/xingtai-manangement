@@ -3,13 +3,14 @@
     <el-row :gutter="12">
       <el-col :span="4">
         <div class="left-wrapper">
-          <leftWrapper @selectCar="selectCar"></leftWrapper>
+          <leftWrapper @selectCar="selectCar" :isClear="isClear" @isClearTo="isClearTo"></leftWrapper>
         </div>
       </el-col>
       <el-col :span="20">
         <div class="right-content">
           <rightWrapper
             :selectCarData="selectCarData"
+            @clear="clear"
           ></rightWrapper>
         </div>
       </el-col>
@@ -25,7 +26,8 @@ export default {
   name: '',
   data () {
     return {
-      selectCarData: {}
+      selectCarData: {},
+      isClear: false
     };
   },
   components: {
@@ -46,6 +48,12 @@ export default {
   methods: {
     selectCar (data) {
       this.selectCarData = data;
+    },
+    clear () {
+      this.isClear = true;
+    },
+    isClearTo () {
+      this.isClear = false;
     }
   }
 };

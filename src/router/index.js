@@ -19,6 +19,8 @@ const runtimeAnalysis = () => import('views/operationAnalysis/dispatchingOperati
 const passengerTransportCapacity = () => import('views/operationAnalysis/dispatchingOperationAnalysis/passengerTransportCapacity/');
 const fatigueMonitoring = () => import('views/operationAnalysis/fatigueMonitoring/');
 const alarmCenter = () => import('views/operationAnalysis/fatigueMonitoring/alarmCenter/');
+const alarmContent = () => import('views/operationAnalysis/fatigueMonitoring/alarmCenter/alarmContent/');
+const deviceStatus = () => import('views/operationAnalysis/fatigueMonitoring/deviceStatus/');
 const safetySupervision = () => import('views/operationAnalysis/safetySupervision/');
 const vehicleFaultAlarm = () => import('views/operationAnalysis/safetySupervision/vehicleFaultAlarm');
 const realTimeDashboard = () => import('views/operationAnalysis/safetySupervision/realTimeDashboard');
@@ -204,6 +206,25 @@ export const constantRouterMap = [
             name: 'alarmCenter',
             meta: {
               title: '报警中心',
+              icon: 'fa fa-bell'
+            }
+          },
+          {
+            path: '/operation/fatigue-monitoring/alarm-center/alarm-content',
+            component: alarmContent,
+            name: 'alarmContent',
+            hidden: true,
+            meta: {
+              title: '报警中心详情',
+              icon: 'fa fa-bell'
+            }
+          },
+          {
+            path: '/operation/fatigue-monitoring/device-status',
+            component: deviceStatus,
+            name: 'deviceStatus',
+            meta: {
+              title: '设备状态',
               icon: 'fa fa-bell'
             }
           }
