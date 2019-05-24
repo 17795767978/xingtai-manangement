@@ -68,23 +68,10 @@
           <template slot-scope="scope">
             <el-popover
               placement="left"
-              width="400px"
               trigger="click"
               >
-              <baidu-map
-                :style="{width: '400px', height: '400px', backgroundColor: 'rgba(0,0,0, 0.5)'}"
-                :zoom="18"
-                :center="{lat: scope.row.lat, lng: scope.row.lng}"
-                :scroll-wheel-zoom="true"
-              >
-                <!-- animation="BMAP_ANIMATION_DROP" -->
-                <bm-marker
-                 :position="{lat: scope.row.lat, lng: scope.row.lng}"
-                  animation="BMAP_ANIMATION_BOUNCE"
-                  >
-                </bm-marker>
-              </baidu-map>
-              <el-button type="success" icon="el-icon-location-outline" slot="reference" circle></el-button>
+              <mapWrapper v-if="isReload" :rowData="rowData"/>
+              <el-button type="success" icon="el-icon-location-outline" slot="reference" circle @click="getRow(scope.row)"></el-button>
             </el-popover>
           </template>
         </el-table-column>
@@ -111,8 +98,8 @@
 
 <script type="text/ecmascript-6">
 import moment from 'moment';
-import {statusTable, lineStatus} from 'server/interface';
-import {BmMarker} from 'vue-baidu-map';
+import { statusTable, lineStatus } from 'server/interface';
+import mapWrapper from './map';
 export default {
   props: {
     selectData: {
@@ -126,6 +113,7 @@ export default {
       total: 0,
       lineTotal: 0,
       dialogTableVisible: false,
+      isReload: true,
       lineId: '',
       lineName: '',
       center: {},
@@ -135,9 +123,9 @@ export default {
     };
   },
   components: {
-    BmMarker
+    mapWrapper
   },
-  created () {
+  created() {
     this._statusTable({
       pageNum: 1,
       pageSize: 10,
@@ -145,26 +133,30 @@ export default {
       orgUuid: '1' // 组织机构
     });
   },
-  computed: {
+  computed: {},
+  provide() {
+    return {
+      reload: this.reload
+    };
   },
   methods: {
-    _statusTable (params) {
+    _statusTable(params) {
       statusTable('deviceStatus/lineDeviceStatusPage/get', params).then(res => {
         this.tableData = res.data.data.list;
         this.total = res.data.data.total;
       });
     },
-    formatterTime (row) {
+    formatterTime(row) {
       return moment(row.updateTime).format('YYYY-MM-DD HH:MM:SS');
     },
-    formatterRate (row) {
-      let num = row.onlineDeviceCount / row.deviceCount * 100;
+    formatterRate(row) {
+      let num = (row.onlineDeviceCount / row.deviceCount) * 100;
       return JSON.stringify(num).substring(0, 5);
     },
-    formatterTimeInside (row) {
+    formatterTimeInside(row) {
       return moment(row.updateTime).format('YYYY-MM-DD HH:MM:SS');
     },
-    handleClick (row) {
+    handleClick(row) {
       // console.log(row);
       this.lineId = row.lineUuid;
       this.lineName = row.lineName;
@@ -179,7 +171,7 @@ export default {
       });
     },
     // 外层table
-    handleCurrentChange (val) {
+    handleCurrentChange(val) {
       this._statusTable({
         pageNum: val,
         pageSize: 10,
@@ -188,8 +180,8 @@ export default {
       });
     },
     // 内层table
-    handleCurrentChangeLine (val) {
-       lineStatus('deviceStatus/lineStatusPage/get', {
+    handleCurrentChangeLine(val) {
+      lineStatus('deviceStatus/lineStatusPage/get', {
         pageNum: val,
         pageSize: 10,
         lineId: this.lineId
@@ -197,6 +189,15 @@ export default {
         this.dialogTableVisible = true;
         this.lineTableData = res.data.data.list;
         this.lineTotal = res.data.data.total;
+      });
+    },
+    getRow(row) {
+      this.rowData = row;
+    },
+    reload() {
+      this.isreload = false;
+      this.$nextTick(function() {
+        this.isreload = true;
       });
     }
     // map

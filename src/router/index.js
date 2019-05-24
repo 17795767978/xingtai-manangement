@@ -21,12 +21,12 @@ const fatigueMonitoring = () => import('views/operationAnalysis/fatigueMonitorin
 const alarmCenter = () => import('views/operationAnalysis/fatigueMonitoring/alarmCenter/');
 const alarmContent = () => import('views/operationAnalysis/fatigueMonitoring/alarmCenter/alarmContent/');
 const deviceStatus = () => import('views/operationAnalysis/fatigueMonitoring/deviceStatus/');
+const alarmAnalysis = () => import('views/operationAnalysis/fatigueMonitoring/alarmAnalysis/');
 const safetySupervision = () => import('views/operationAnalysis/safetySupervision/');
 const vehicleFaultAlarm = () => import('views/operationAnalysis/safetySupervision/vehicleFaultAlarm');
 const realTimeDashboard = () => import('views/operationAnalysis/safetySupervision/realTimeDashboard');
 
-export const constantRouterMap = [
-  {
+export const constantRouterMap = [{
     path: '/login',
     component: login,
     hidden: true
@@ -49,17 +49,15 @@ export const constantRouterMap = [
       title: '大数据工作台',
       icon: 'fa fa-home'
     },
-    children: [
-      {
-        path: 'dashboard',
-        component: dashboard,
-        name: 'dashboard',
-        meta: {
-          title: '首页',
-          icon: 'fa fa-home'
-        }
+    children: [{
+      path: 'dashboard',
+      component: dashboard,
+      name: 'dashboard',
+      meta: {
+        title: '首页',
+        icon: 'fa fa-home'
       }
-    ]
+    }]
   },
   {
     path: '/chart-analysis',
@@ -68,17 +66,15 @@ export const constantRouterMap = [
       title: '运营监控',
       icon: 'fa fa-line-chart'
     },
-    children: [
-      {
-        path: '/chart-analysis',
-        component: chartAnalysis,
-        name: 'chartAnalysis',
-        meta: {
-          title: '运营监控',
-          icon: 'fa fa-line-chart'
-        }
+    children: [{
+      path: '/chart-analysis',
+      component: chartAnalysis,
+      name: 'chartAnalysis',
+      meta: {
+        title: '运营监控',
+        icon: 'fa fa-line-chart'
       }
-    ]
+    }]
   },
   {
     path: '/operation',
@@ -87,8 +83,7 @@ export const constantRouterMap = [
       title: '运营分析',
       icon: 'fa fa-th-large'
     },
-    children: [
-      {
+    children: [{
         path: '/operation/operation-analysis',
         name: 'dispatchingOperationAnalysis',
         component: dispatchingOperationAnalysis,
@@ -96,8 +91,7 @@ export const constantRouterMap = [
           title: '调度运营分析',
           icon: 'fa fa-area-chart'
         },
-        children: [
-          {
+        children: [{
             path: '/operation/operation-analysis/timeTable-analysis',
             component: timeTableAnalysis,
             name: 'timeTableAnalysis',
@@ -170,8 +164,7 @@ export const constantRouterMap = [
           title: '安全监管',
           icon: 'fa fa-exclamation-triangle'
         },
-        children: [
-          {
+        children: [{
             path: '/operation/safety-supervision/vehicle-fault-alarm',
             component: vehicleFaultAlarm,
             name: 'vehicleFaultAlarm',
@@ -199,8 +192,7 @@ export const constantRouterMap = [
           title: '疲劳监测',
           icon: 'fa fa-television'
         },
-        children: [
-          {
+        children: [{
             path: '/operation/fatigue-monitoring/alarm-center',
             component: alarmCenter,
             name: 'alarmCenter',
@@ -227,6 +219,15 @@ export const constantRouterMap = [
               title: '设备状态',
               icon: 'fa fa-bell'
             }
+          },
+          {
+            path: '/operation/fatigue-monitoring/alarm-analysis',
+            component: alarmAnalysis,
+            name: 'alarmAnalysis',
+            meta: {
+              title: '报警分析',
+              icon: 'fa fa-bell'
+            }
           }
           // {
           //   path: '/operation/safety-supervision/real-time-dashboard',
@@ -244,9 +245,10 @@ export const constantRouterMap = [
 ];
 
 export default new Router({
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({
+    y: 0
+  }),
   routes: constantRouterMap
 });
 
-export const asyncRouterMap = [
-];
+export const asyncRouterMap = [];

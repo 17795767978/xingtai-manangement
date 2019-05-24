@@ -26,7 +26,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {warnInfoDetail} from 'server/interface';
+import { warnInfoDetail } from 'server/interface';
 import personDetail from './Components/personDetail';
 import picDetail from './Components/picDetail';
 import videoDetail from './Components/videoDetail';
@@ -34,7 +34,7 @@ import mapDetail from './Components/mapDetail';
 // import moment from 'moment';
 export default {
   name: 'alarmContent',
-  data () {
+  data() {
     return {
       busDetails: {},
       isClear: false
@@ -46,15 +46,14 @@ export default {
     videoDetail,
     mapDetail
   },
-  created () {
+  created() {
     this._warnInfoDetail({
       warnUuid: this.$route.query.warnUuid
     });
   },
-  watch: {
-  },
+  watch: {},
   methods: {
-    _warnInfoDetail (params) {
+    _warnInfoDetail(params) {
       warnInfoDetail('warns/warnInfoDetail/get', params).then(res => {
         this.busDetails = res.data.data;
       });
