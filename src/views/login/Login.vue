@@ -89,6 +89,8 @@
         loading: false
       };
     },
+    mounted () {
+    },
     methods: {
       handleLogin() {
         this.$refs.loginForm.validate(valid => {

@@ -4,6 +4,7 @@
       v-cloak
       ref="upChartWrapper"
       id="up-chart-wrapper"
+      v-if="xAxisData.length > 0"
       :style="{width: '100%', height: '330px'}"
       v-loading="loading"
       element-loading-background="rgba(255, 255, 255, 0.5)"

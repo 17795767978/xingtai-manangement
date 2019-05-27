@@ -5,6 +5,7 @@
       id="down-chart-wrapper"
       :style="{width: '100%', height: '300px'}"
       v-loading="loading"
+      v-if="echartsData.length > 0"
       element-loading-background="rgba(255, 255, 255, 0.5)"
     >
     </div>

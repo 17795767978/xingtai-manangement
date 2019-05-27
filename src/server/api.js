@@ -9,6 +9,7 @@ axios.defaults.baseURL = baseUrl;
 axios.defaults.headers = {
   'Content-Type': 'application/json'
 };
+
 axios.defaults.timeout = 5000;
 
 axios.interceptors.request.use(config => {
@@ -65,6 +66,8 @@ export default {
         data: JSON.stringify(params)
       }).then(res => {
         resolve(res);
+      }).catch((err) => {
+        reject(err);
       });
     });
   }

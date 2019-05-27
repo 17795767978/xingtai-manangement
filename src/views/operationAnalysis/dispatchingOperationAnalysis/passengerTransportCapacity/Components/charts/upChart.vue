@@ -4,6 +4,7 @@
       ref="upChartWrapper"
       id="up-chart-wrapper"
       :style="{width: '100%', height: '300px'}"
+      v-if="echartsData.length > 0"
       v-loading="loading"
       element-loading-background="rgba(255, 255, 255, 0.5)"
     >

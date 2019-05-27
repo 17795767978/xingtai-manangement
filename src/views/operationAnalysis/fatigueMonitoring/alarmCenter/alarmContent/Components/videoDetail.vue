@@ -1,5 +1,5 @@
 <template>
-  <div class="person-detail-content" v-loading="isLoading">
+  <div class="person-detail-content">
     <el-row :gutter="1">
       <el-col :span="3">
         <h3 class="demonstration">报警视频</h3>
@@ -16,7 +16,7 @@
             <video :src="item.url" width="100%" height="100%" controls></video>
           </el-carousel-item>
         </el-carousel>
-        <img v-else v-show="!isLoading" src="../../../../../../assets/images/noVideoData.png" width="70%" style="margin-left: 10%">
+        <img v-else src="../../../../../../assets/images/noVideoData.png" width="70%" style="margin-left: 10%">
       </el-col>
     </el-row>
   </div>

@@ -209,3 +209,23 @@ export function alartTerm(url, params) {
 export function alarmTimeChart(url, params) {
   return api.post(url, params);
 }
+// 报警类型管理--列表
+export function alarmManageTable(url, params) {
+  return api.post(url, params);
+}
+// 报警类型管理--新增
+export function alarmManageAdd(url, params) {
+  return api.post(url, params);
+}
+// 报警类型管理--修改
+export function alarmManageCheck(url, params) {
+  return api.post(url, params);
+}
+// 报警类型管理---启用/禁用
+export function alarmManageIsuse(url, params) {
+  return api.post(url, params);
+}
+// 报警中心---下载
+export function downLoad(url, params) {
+  return api.post(url, params);
+}

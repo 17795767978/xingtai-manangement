@@ -22,6 +22,7 @@ const alarmCenter = () => import('views/operationAnalysis/fatigueMonitoring/alar
 const alarmContent = () => import('views/operationAnalysis/fatigueMonitoring/alarmCenter/alarmContent/');
 const deviceStatus = () => import('views/operationAnalysis/fatigueMonitoring/deviceStatus/');
 const alarmAnalysis = () => import('views/operationAnalysis/fatigueMonitoring/alarmAnalysis/');
+const alarmManagement = () => import('views/operationAnalysis/fatigueMonitoring/alarmManagement/');
 const safetySupervision = () => import('views/operationAnalysis/safetySupervision/');
 const vehicleFaultAlarm = () => import('views/operationAnalysis/safetySupervision/vehicleFaultAlarm');
 const realTimeDashboard = () => import('views/operationAnalysis/safetySupervision/realTimeDashboard');
@@ -228,16 +229,16 @@ export const constantRouterMap = [{
               title: '报警分析',
               icon: 'fa fa-bell'
             }
+          },
+          {
+            path: '/operation/fatigue-monitoring/alarm-management',
+            component: alarmManagement,
+            name: 'alarmManagement',
+            meta: {
+              title: '报警类型管理',
+              icon: 'fa fa-bell'
+            }
           }
-          // {
-          //   path: '/operation/safety-supervision/real-time-dashboard',
-          //   component: realTimeDashboard,
-          //   name: 'realTimeDashboard',
-          //   meta: {
-          //     title: '实时仪表盘',
-          //     icon: 'fa fa-dashboard'
-          //   }
-          // }
         ]
       }
     ]

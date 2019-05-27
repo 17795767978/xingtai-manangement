@@ -49,6 +49,7 @@
     <div class="block">
       <el-pagination
         style="float: right; margin-top: 20px;"
+        :current-page="outCurrentPage"
         background
         @current-change="handleCurrentChange"
         layout="prev, pager, next"
@@ -86,6 +87,7 @@
         <el-pagination
           style="float: right; margin-top: -20px;"
           background
+          :current-page="inCurrentPage"
           @current-change="handleCurrentChangeLine"
           layout="prev, pager, next"
           :total="lineTotal">
@@ -119,7 +121,9 @@ export default {
       center: {},
       zoom: 5,
       position: {},
-      rowData: {}
+      rowData: {},
+      outCurrentPage: 1,
+      inCurrentPage: 1
     };
   },
   components: {
@@ -127,7 +131,7 @@ export default {
   },
   created() {
     this._statusTable({
-      pageNum: 1,
+      pageNum: this.outCurrentPage,
       pageSize: 10,
       lineUuid: [''], // 线路id，可多选
       orgUuid: '1' // 组织机构
@@ -161,7 +165,7 @@ export default {
       this.lineId = row.lineUuid;
       this.lineName = row.lineName;
       lineStatus('deviceStatus/lineStatusPage/get', {
-        pageNum: 1,
+        pageNum: this.inCurrentPage,
         pageSize: 10,
         lineId: row.lineUuid
       }).then(res => {
@@ -172,8 +176,9 @@ export default {
     },
     // 外层table
     handleCurrentChange(val) {
+      this.outCurrentPage = val;
       this._statusTable({
-        pageNum: val,
+        pageNum: this.outCurrentPage,
         pageSize: 10,
         lineUuid: [''], // 线路id，可多选
         orgUuid: '1' // 组织机构
@@ -181,8 +186,9 @@ export default {
     },
     // 内层table
     handleCurrentChangeLine(val) {
+      this.inCurrentPage = val;
       lineStatus('deviceStatus/lineStatusPage/get', {
-        pageNum: val,
+        pageNum: this.inCurrentPage,
         pageSize: 10,
         lineId: this.lineId
       }).then(res => {

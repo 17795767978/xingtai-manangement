@@ -4,7 +4,7 @@
       <el-form-item label="选择路线">
         <el-select class="font-style" v-model="formInline.value" placeholder="请选择">
           <el-option
-            v-for="item in options"
+            v-for="item in lineOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -78,7 +78,7 @@ export default {
         // typeFullRate: ''
       },
       tabType: ['上车人数', '下车人数', '断面客流', '满载率'],
-      options: [{
+      lineOptions: [{
         value: '0103',
         label: '103路'
       },
@@ -121,6 +121,11 @@ export default {
     this.formInline.date = moment(dataBefore).format('YYYY-MM-DD');
     this.formInline.startTime = '00:00';
     this.formInline.endTime = '24:00';
+  },
+  mounted () {
+    this.$store.dispatch('getLineList').then(res => {
+      this.lineOptions = res;
+    });
   },
   methods: {
     onSubmit() {

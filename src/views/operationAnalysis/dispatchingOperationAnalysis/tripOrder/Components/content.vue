@@ -2,6 +2,7 @@
   <div>
     <div id="chart-wrapper"
      ref="chartWrapper"
+     v-if="echartDatas.length > 0"
      :style="{width: '100%', height: '600px'}"></div>
     <div
       v-cloak

@@ -4,6 +4,7 @@
       ref="chartWrapper"
       :style="{width: '100%', height: '700px'}"
       v-loading="loading"
+      v-if="echartsData.length > 0"
       element-loading-background="rgba(255, 255, 255, 0.5)"
     >
     </div>

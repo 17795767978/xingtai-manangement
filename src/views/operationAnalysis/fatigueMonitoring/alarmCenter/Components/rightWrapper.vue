@@ -45,7 +45,14 @@
         <el-form-item>
           <el-button type="primary" @click="onSubmit">查询</el-button>
           <el-button type="warning" @click="onClear">重置</el-button>
-          <!-- <el-button type="success" @click="onSave">导出</el-button> -->
+          <!-- <downloadExcel
+            :data= "json_data"
+            type="csv"
+            name= "报警中心报表.xls"
+            @click="onSave"
+          > -->
+          <el-button type="success" @click="onSave">导出</el-button>
+          <!-- </downloadExcel> -->
         </el-form-item>
       </el-form>
     </div>
@@ -96,9 +103,11 @@
         </el-table-column>
         <el-table-column
           align="center"
-          prop="warnSourceName"
-          label="设备类型"
+          label="报警级别"
           width="150">
+          <template slot-scope="scope">
+            {{scope.row.warnLevel}}级
+          </template>
         </el-table-column>
         <el-table-column
           align="center"
@@ -132,13 +141,17 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {tableList, alarmType} from 'server/interface';
+import {tableList, alarmType, downLoad} from 'server/interface';
+// import downloadExcel from 'vue-json-excel';
 import moment from 'moment';
 export default {
   props: {
     selectCarData: {
       type: Object
     }
+  },
+  components: {
+    // downloadExcel
   },
   data () {
     return {
@@ -167,7 +180,8 @@ export default {
       ],
       warnOptions: [],
       tableData: [],
-      total: 100
+      total: 100,
+      json_data: []
     };
   },
   created () {
@@ -248,6 +262,7 @@ export default {
       tableList('warns/warnPage/get', params).then(res => {
         this.tableData = res.data.data.list;
         this.total = res.data.data.total;
+        this.json_data = this.tableData;
       });
     },
     changeBusPlateNumber () {
@@ -329,8 +344,17 @@ export default {
         timeValue: [moment(endTime).format('YYYY-MM-DD HH:MM:SS'), moment(dataNow).format('YYYY-MM-DD HH:MM:SS')]
       };
       this.$emit('clear');
+    },
+    onSave () {
+      downLoad('warns/warnPage/expert', this.formInline).then(res => {
+        if (res.data.data.url.length > 0) {
+          let url = `http:/${res.data.data.url}`;
+          // window.location.href = url;
+          window.open(url);
+          this.$message.success('正在加载。。。');
+        }
+      });
     }
-    // onSave () {}
   }
 };
 </script>

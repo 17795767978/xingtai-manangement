@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 
-const TokenKey = 'HaoYue-Token';
+const TokenKey = 'XingTai-Token';
 
 export function getToken() {
   return Cookies.get(TokenKey);

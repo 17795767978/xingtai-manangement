@@ -71,20 +71,18 @@ export default {
     };
   },
   created() {
-    this._lineList();
-    this._comList();
+    // this._lineList();
+    // this._comList();
+  },
+  mounted () {
+    this.$store.dispatch('getLineList').then(res => {
+      this.lineOptions = res;
+    });
+    this.$store.dispatch('getComList').then(res => {
+      this.comOptions = res;
+    });
   },
   methods: {
-    _lineList() {
-      this.$store.dispatch('getLineList').then(res => {
-        console.log(res);
-      });
-    },
-    _comList() {
-      this.$store.dispatch('getComList').then(res => {
-        console.log(res);
-      });
-    },
     onSubmit() {
       // this.formInline.date = moment(this.formInline.date).format('YYYY-MM-DD');
       console.log(this.formInline);

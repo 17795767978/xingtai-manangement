@@ -8,7 +8,6 @@
         class="filter-tree"
         :data="lineList"
         node-key="id"
-        default-expand-all
         :highlight-current="true"
         :props="defaultProps"
         :filter-node-method="filterNode"
@@ -36,6 +35,8 @@ export default {
         label: 'name'
       }
     };
+  },
+  components: {
   },
   created () {
     this._lineTree();

@@ -4,7 +4,7 @@
       <el-form-item label="选择路线">
         <el-select v-model="formInline.value" placeholder="请选择">
           <el-option
-            v-for="item in options"
+            v-for="item in lineOptions"
             :key="item.value"
             :label="item.label"
             :value="item.value">
@@ -47,7 +47,7 @@ export default {
         turn: '',
         date: ''
       },
-      options: [{
+      lineOptions: [{
         value: '0103',
         label: '103路'
       }],
@@ -84,6 +84,11 @@ export default {
         }]
       }
     };
+  },
+  mounted () {
+    this.$store.dispatch('getLineList').then(res => {
+      this.lineOptions = res;
+    });
   },
   methods: {
     onSubmit() {

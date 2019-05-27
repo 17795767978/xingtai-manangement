@@ -3,6 +3,7 @@
     <div class="up-chart-wrapper"
       ref="upChartWrapper"
       id="up-chart-wrapper"
+      v-if="echartsData.length > 0"
       :style="{width: '100%', height: '400px'}"
       v-loading="loading"
       element-loading-background="rgba(255, 255, 255, 0.5)"

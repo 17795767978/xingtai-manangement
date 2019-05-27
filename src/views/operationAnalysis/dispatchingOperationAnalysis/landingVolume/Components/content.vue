@@ -70,6 +70,7 @@
           <!-- 有数据的station -->
           <el-table-column
             align="center"
+            v-if="stations.length > 0"
             v-for="(station, index) in stations"
             :key="index"
             :label="station"
@@ -92,7 +93,6 @@
           </el-table-column>
           <el-table-column
             align="center"
-            width="60"
             label="总数"
             fixed="right"
             prop="totle">
@@ -129,6 +129,7 @@
                 </el-table-column>
                 <el-table-column
                   align="center"
+                  v-if="emptyStations.length > 0"
                   v-for="(station, index) in stations"
                   :key="index"
                   :label="station"
@@ -168,6 +169,7 @@
           <!-- 有数据的station -->
           <el-table-column
             align="center"
+            v-if="emptyStations.length > 0"
             v-for="(station, index) in stations"
             :key="index"
             :label="station"
@@ -190,7 +192,6 @@
           </el-table-column>
           <el-table-column
             align="center"
-            width="60"
             label="总数"
             fixed="right"
             prop="totle">

@@ -26,8 +26,8 @@
     <el-row :gutter="24">
        <el-col :span="6">
         <i class="fa fa-code-fork"></i>
-        <span>设备类型:</span>
-        <span>{{busDetails.warnSourceName}}</span>
+        <span>报警级别:</span>
+        <span>{{busDetails.warnLevel}}级</span>
        </el-col>
        <el-col :span="6">
         <i class="fa fa-exclamation-triangle"></i>

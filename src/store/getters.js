@@ -12,5 +12,4 @@ const getters = {
   auditMessage: state => state.message.auditMessage,
   tabWrap: state => state.tabWrap
 };
-
 export default getters;

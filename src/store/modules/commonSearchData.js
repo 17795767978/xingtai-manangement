@@ -4,22 +4,22 @@ import {
   stationList
 } from 'server/interface';
 
-const tabWrap = {
+const selectData = {
   state: {
-    lineDate: [],
+    lineData: [],
     stationData: [],
     comData: []
     // carData: []
   },
   mutations: {
-    LINE_DATA: (state, lineDate) => {
-      state.tabData = lineDate;
+    LINE_DATA: (state, lineData) => {
+      state.lineData = lineData;
     },
     STATION_DATA: (state, stationData) => {
-      state.tabData = stationData;
+      state.stationData = stationData;
     },
     COM_DATA: (state, comData) => {
-      state.tabData = comData;
+      state.comData = comData;
     }
   },
   actions: {
@@ -27,9 +27,19 @@ const tabWrap = {
       commit
     }) {
       return new Promise((resolve, reject) => {
-        lineList('api/bus/line/list').then(res => {
-          commit('LINE_DATA', res.data.data.list);
-          resolve(res);
+        lineList('api/bus/line/list', {
+          lineId: '',
+          lineName: ''
+        }).then(res => {
+          let list = [];
+          res.data.data.forEach(item => {
+            list.push({
+              label: item.lineName,
+              value: item.lineUuid
+            });
+          });
+          commit('LINE_DATA', list);
+          resolve(list);
         }).catch(error => {
           reject(error);
         });
@@ -51,9 +61,19 @@ const tabWrap = {
       commit
     }) {
       return new Promise((resolve, reject) => {
-        comList('api/bus/sysorg/list').then(res => {
-          commit('LINE_DATA', res.data.data.list);
-          resolve(res);
+        comList('api/bus/sysorg/list', {
+          orgId: '',
+          orgName: ''
+        }).then(res => {
+          let list = [];
+          res.data.data.forEach(item => {
+            list.push({
+              label: item.orgName,
+              value: item.orgUuid
+            });
+          });
+          commit('COM_DATA', list);
+          resolve(list);
         }).catch(error => {
           reject(error);
         });
@@ -62,4 +82,4 @@ const tabWrap = {
   }
 };
 
-export default tabWrap;
+export default selectData;

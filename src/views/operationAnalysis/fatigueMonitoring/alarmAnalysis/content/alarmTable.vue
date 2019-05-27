@@ -45,6 +45,7 @@
     <el-pagination
       style="float: right; margin-top: 20px;"
       background
+      :current-page="currentPage"
       @current-change="handleCurrentChange"
       layout="prev, pager, next"
       :total="total">
@@ -64,6 +65,7 @@ export default {
   data () {
     return {
       tableData: [],
+      currentPage: 1,
       total: 0
     };
   },
@@ -79,7 +81,7 @@ export default {
       startTime: '',
       endTime: '',
       pageSize: 10,
-      pageNum: 1
+      pageNum: this.currentPage
     });
   },
   watch: {
@@ -93,7 +95,7 @@ export default {
           startTime: '',
           endTime: '',
           pageSize: 10,
-          pageNum: 1
+          pageNum: this.currentPage
         });
       }
     }
@@ -109,6 +111,7 @@ export default {
       });
     },
     handleCurrentChange (val) {
+      this.currentPage = val;
       this._alarmTableAna({
         orgId: this.selectData.orgId,
         lineId: this.selectData.lineId,
@@ -116,7 +119,7 @@ export default {
         startTime: '',
         endTime: '',
         pageSize: 10,
-        pageNum: val
+        pageNum: this.currentPage
       });
     }
   }

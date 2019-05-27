@@ -5,7 +5,7 @@
     </header>
     <div class="content">
       <!-- <contentWrapper></contentWrapper> -->
-      <h2 class="title"><span style="color: #f00">{{checkData.value}}</span>客流高峰断面分析</h2>
+      <h2 class="title">客流高峰断面分析</h2>
       <Chart :checkData="checkData" :isUpdate="isUpdate" @isUpdateTo="isUpdateTo"></Chart>
     </div>
   </div>
@@ -32,7 +32,6 @@ export default {
     // contentWrapper
   },
   mounted () {
-    console.log(123);
   },
   watch: {
     checkData: {

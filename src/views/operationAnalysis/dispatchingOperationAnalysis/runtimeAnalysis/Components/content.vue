@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="echart-wrapper" ref="echartWrapper" :style="{width: '100%', height: '500px'}"></div>
+    <div id="echart-wrapper" ref="echartWrapper" v-if="echartData.length > 0" :style="{width: '100%', height: '500px'}"></div>
     <div v-if="echartData.length === 0" class="anim" style="width: 100%; height: 300px; line-height:300px;text-align:center">
       暂无数据
     </div>

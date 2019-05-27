@@ -33,7 +33,6 @@
 
 <script type="text/ecmascript-6">
 // import moment from 'moment';
-import {lineList, comList} from 'server/interface';
 export default {
   data() {
     return {
@@ -46,32 +45,18 @@ export default {
     };
   },
   created () {
-    this._lineList();
-    this._comList();
+    // this._lineList();
+    // this._comList();
+  },
+  mounted () {
+    this.$store.dispatch('getLineList').then(res => {
+      this.lineOptions = res;
+    });
+    this.$store.dispatch('getComList').then(res => {
+      this.comOptions = res;
+    });
   },
   methods: {
-    _lineList () {
-      comList('api/bus/line/list').then(res => {
-        let arr = res.data.data;
-        arr.forEach(item => {
-          this.lineOptions.push({
-            value: item.lineUuid,
-            label: item.lineName
-          });
-        });
-      });
-    },
-    _comList () {
-      lineList('api/bus/sysorg/list').then(res => {
-        let arr = res.data.data;
-        arr.forEach(item => {
-          this.comOptions.push({
-            value: item.lineUuid,
-            label: item.lineName
-          });
-        });
-      });
-    },
     onSubmit() {
       this.$emit('selectConfig', this.formInline);
     },
