@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import {realTimePassengeFlow} from 'server/interface';
+import { realTimePassengeFlow } from 'server/interface';
 import noEcharts from './noEcharts.vue';
-import {max} from 'utils/max.js';
+import { max } from 'utils/max.js';
 export default {
   data () {
     return {
@@ -61,10 +61,10 @@ export default {
           }
         },
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         xAxis: {
           type: 'category',

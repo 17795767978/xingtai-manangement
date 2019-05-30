@@ -10,9 +10,8 @@
 </template>
 
 <script>
-import {realTimeFullRate} from 'server/interface';
-import noEcharts from './noEcharts.vue';
-import {max} from 'utils/max.js';
+import { realTimeFullRate } from 'server/interface';
+import { max } from 'utils/max.js';
 export default {
   data () {
     return {
@@ -26,7 +25,6 @@ export default {
     };
   },
   components: {
-    noEcharts
   },
   created () {
     this._realTimeFullRate({
@@ -67,10 +65,10 @@ export default {
           }
         },
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         color: ['#0490b3', '#6e9724', '#b22679'],
         legend: {
@@ -81,111 +79,111 @@ export default {
           }
         },
         xAxis: [
-            {
-                type: 'category',
-                data: this.timeInterval,
-                axisPointer: {
-                    type: 'shadow'
-                },
-                splitLine: {
-                    show: false
-                },
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLabel: {
-                    inside: false,
-                    // interval: 0,
-                    textStyle: {
-                      color: '#fff',
-                      fontSize: '10',
-                      borderRadius: '6'
-                    }
-                }
+          {
+            type: 'category',
+            data: this.timeInterval,
+            axisPointer: {
+              type: 'shadow'
+            },
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              inside: false,
+              // interval: 0,
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
+              }
             }
+          }
         ],
         yAxis: [
-            {
-                type: 'value',
-                // name: '水量',
-                min: 0,
-                max: this.busLoadNumberMax,
-                interval: this.busLoadNumberMax / 6,
-                // axisLabel: {
-                //     formatter: '{value} ml'
-                // },
-                splitLine: {
-                    show: false
-                },
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLabel: {
-                  inside: false,
-                  interval: 0,
-                  textStyle: {
-                    color: '#fff',
-                    fontSize: '10',
-                    borderRadius: '6'
-                  }
-              }
+          {
+            type: 'value',
+            // name: '水量',
+            min: 0,
+            max: this.busLoadNumberMax,
+            interval: this.busLoadNumberMax / 6,
+            // axisLabel: {
+            //     formatter: '{value} ml'
+            // },
+            splitLine: {
+              show: false
             },
-            {
-                type: 'value',
-                min: 0,
-                max: this.fullLoadRateMax + 10,
-                interval: Math.floor(this.fullLoadRateMax / 3),
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                splitLine: {
-                  show: false
-                },
-                axisLabel: {
-                    formatter: '{value}%',
-                    color: '#fff',
-                    fontSize: '10',
-                    borderRadius: '6'
-                }
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              inside: false,
+              interval: 0,
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
+              }
             }
+          },
+          {
+            type: 'value',
+            min: 0,
+            max: this.fullLoadRateMax + 10,
+            interval: Math.floor(this.fullLoadRateMax / 3),
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            splitLine: {
+              show: false
+            },
+            axisLabel: {
+              formatter: '{value}%',
+              color: '#fff',
+              fontSize: '10',
+              borderRadius: '6'
+            }
+          }
         ],
         series: [
-            {
-                name: '定员数',
-                type: 'bar',
-                barWidth: '10',
-                barGap: '-100%',
-                itemStyle: {
-                  emphasis: {
-                    barBorderRadius: 5
-                  },
-                  normal: {
-                    barBorderRadius: 5
-                  }
-                },
-                data: this.busLoadNumber
+          {
+            name: '定员数',
+            type: 'bar',
+            barWidth: '10',
+            barGap: '-100%',
+            itemStyle: {
+              emphasis: {
+                barBorderRadius: 5
+              },
+              normal: {
+                barBorderRadius: 5
+              }
             },
-            {
-                name: '通过量',
-                type: 'bar',
-                barWidth: '10',
-                data: this.personCount
-            },
-            {
-                name: '满载率',
-                type: 'line',
-                yAxisIndex: 1,
-                data: this.fullLoadRate
-            }
+            data: this.busLoadNumber
+          },
+          {
+            name: '通过量',
+            type: 'bar',
+            barWidth: '10',
+            data: this.personCount
+          },
+          {
+            name: '满载率',
+            type: 'line',
+            yAxisIndex: 1,
+            data: this.fullLoadRate
+          }
         ]
       });
     }

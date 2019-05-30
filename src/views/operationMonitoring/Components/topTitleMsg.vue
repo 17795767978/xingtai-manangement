@@ -25,7 +25,7 @@
 
 <script>
 import moment from 'moment';
-import {getWeather} from 'server/interface';
+import { getWeather } from 'server/interface';
 import 'assets/iconfont/iconfont.css';
 export default {
   data () {

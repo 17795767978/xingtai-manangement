@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import {lineRateTen} from 'server/interface';
+import { lineRateTen } from 'server/interface';
 export default {
   data () {
     return {
@@ -48,81 +48,81 @@ export default {
           }
         },
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
         xAxis: [
-            {
-                type: 'value',
-                min: 0,
-                max: 100,
-                interval: 10,
-                axisPointer: {
-                    type: 'shadow'
-                },
-                splitLine: {
-                    show: false
-                },
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLabel: {
-                    inside: false,
-                    interval: 0,
-                    formatter: '{value}%',
-                    textStyle: {
-                      color: '#fff',
-                      fontSize: '10',
-                      borderRadius: '6'
-                    }
-                }
-            }
-        ],
-        yAxis: [
-            {
-                type: 'category',
-                data: this.lineName,
-                splitLine: {
-                    show: false
-                },
-                axisLine: {
-                    show: false
-                },
-                axisTick: {
-                    show: false
-                },
-                axisLabel: {
-                  inside: false,
-                  interval: 0,
-                  textStyle: {
-                    color: '#fff',
-                    fontSize: '10',
-                    borderRadius: '6'
-                  }
+          {
+            type: 'value',
+            min: 0,
+            max: 100,
+            interval: 10,
+            axisPointer: {
+              type: 'shadow'
+            },
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              inside: false,
+              interval: 0,
+              formatter: '{value}%',
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
               }
             }
+          }
+        ],
+        yAxis: [
+          {
+            type: 'category',
+            data: this.lineName,
+            splitLine: {
+              show: false
+            },
+            axisLine: {
+              show: false
+            },
+            axisTick: {
+              show: false
+            },
+            axisLabel: {
+              inside: false,
+              interval: 0,
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
+              }
+            }
+          }
         ],
         series: [
-            {
-                type: 'bar',
-                name: '路线满载率',
-                data: this.fullLoadRate,
-                barWidth: 7,
-                itemStyle: {
-                  emphasis: {
-                    barBorderRadius: 20
-                  },
-                  normal: {
-                    color: '#03abd0',
-                    barBorderRadius: 20
-                  }
-                }
+          {
+            type: 'bar',
+            name: '路线满载率',
+            data: this.fullLoadRate,
+            barWidth: 7,
+            itemStyle: {
+              emphasis: {
+                barBorderRadius: 20
+              },
+              normal: {
+                color: '#03abd0',
+                barBorderRadius: 20
+              }
             }
+          }
         ]
       });
     }

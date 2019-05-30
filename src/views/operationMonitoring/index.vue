@@ -1,5 +1,6 @@
 <template>
   <div class="data-wrapper">
+    <el-button type="success" @click="closeWrapper" style="position: absolute; right: 10px; top: 30px; z-index: 1003">关闭</el-button>
     <div class="content-wrapper">
      <TopTitleMsg></TopTitleMsg>
      <StreamNum></StreamNum>
@@ -29,17 +30,31 @@ export default {
     chartsComplete,
     chartsMain,
     bottomChart
+  },
+  methods: {
+    closeWrapper () {
+      console.log(123);
+      this.$router.push('/');
+    }
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .data-wrapper {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
   min-height: calc(100vh);
+  overflow: auto;
   background: url(../../assets/images/space.jpg);
   background-repeat: no-repeat;
   background-size: 100% 100%;
+  z-index: 1002;
+  box-sizing: border-box;
   .content-wrapper {
     padding: 10px 10px;
     box-sizing: border-box;

@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import {badDrivingBehavior} from 'server/interface';
+import { badDrivingBehavior } from 'server/interface';
 // import noEcharts from './noEcharts.vue';
 export default {
   data () {
@@ -45,10 +45,10 @@ export default {
         let dataArrValue = res.data.data.map(item => item.warnLabel);
         let dataArrNumber = res.data.data.map(item => item.warnNumber);
         for (let i = 0; i < dataArrValue.length; i++) {
-           this.badDrivingBehavior[i] = {
-             name: dataArrValue[i],
-             value: dataArrNumber[i]
-           };
+          this.badDrivingBehavior[i] = {
+            name: dataArrValue[i],
+            value: dataArrNumber[i]
+          };
         }
         this.drawLine();
         this.loading = false;
@@ -73,14 +73,14 @@ export default {
         // },
         series: [
           {
-              name: '面积模式',
-              type: 'pie',
-              radius: [0, 60],
-              center: ['50%', '60%'],
-              roseType: 'radius',
-              data: this.badDrivingBehavior
+            name: '面积模式',
+            type: 'pie',
+            radius: [0, 60],
+            center: ['50%', '60%'],
+            roseType: 'radius',
+            data: this.badDrivingBehavior
           }
-      ]
+        ]
       });
     }
   },

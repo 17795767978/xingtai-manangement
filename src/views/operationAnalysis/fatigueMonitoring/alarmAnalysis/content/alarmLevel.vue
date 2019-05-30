@@ -29,7 +29,7 @@ export default {
   created () {
     this._levelRate({
       orgId: this.selectData.orgId,
-      lineIdId: this.selectData.lineIdId,
+      lineId: this.selectData.lineId,
       busPlateNumber: this.selectData.busPlateNumber,
       // startTime: this.selectData.valueTime[0], // 默认7天，昨天开始.时间格式
       // endTime: this.selectData.valueTime[1],

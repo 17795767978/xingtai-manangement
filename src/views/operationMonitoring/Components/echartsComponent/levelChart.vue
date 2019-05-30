@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {getLevelList} from 'server/interface';
+import { getLevelList } from 'server/interface';
 export default {
   data () {
     return {
@@ -37,10 +37,10 @@ export default {
         let dataArrValue = res.data.data.map(item => item.warnLabel);
         let dataArrNumber = res.data.data.map(item => item.warnNumber);
         for (let i = 0; i < dataArrValue.length; i++) {
-           this.getLevelList[i] = {
-             name: dataArrValue[i],
-             value: dataArrNumber[i]
-           };
+          this.getLevelList[i] = {
+            name: dataArrValue[i],
+            value: dataArrNumber[i]
+          };
         }
         this.drawLine();
         this.loading = false;
@@ -69,30 +69,30 @@ export default {
         color: ['#2bacd0', '#fedd00', '#f98e00'],
         series: [
           {
-              name: '面积模式',
-              type: 'pie',
-              radius: [0, 60],
-              center: ['50%', '50%'],
-              roseType: 'radius',
-              label: {
-                  normal: {
-                      show: false
-                  },
-                  emphasis: {
-                      show: true
-                  }
+            name: '面积模式',
+            type: 'pie',
+            radius: [0, 60],
+            center: ['50%', '50%'],
+            roseType: 'radius',
+            label: {
+              normal: {
+                show: false
               },
-              lableLine: {
-                  normal: {
-                      show: false
-                  },
-                  emphasis: {
-                      show: true
-                  }
+              emphasis: {
+                show: true
+              }
+            },
+            lableLine: {
+              normal: {
+                show: false
               },
-              data: this.getLevelList
+              emphasis: {
+                show: true
+              }
+            },
+            data: this.getLevelList
           }
-      ]
+        ]
       });
     }
   },

@@ -26,6 +26,8 @@ const alarmManagement = () => import('views/operationAnalysis/fatigueMonitoring/
 const safetySupervision = () => import('views/operationAnalysis/safetySupervision/');
 const vehicleFaultAlarm = () => import('views/operationAnalysis/safetySupervision/vehicleFaultAlarm');
 const realTimeDashboard = () => import('views/operationAnalysis/safetySupervision/realTimeDashboard');
+const managementList = () => import('views/permissionManagement/managementList/');
+const roleList = () => import('views/permissionManagement/roleList/');
 
 export const constantRouterMap = [{
     path: '/login',
@@ -68,7 +70,7 @@ export const constantRouterMap = [{
       icon: 'fa fa-line-chart'
     },
     children: [{
-      path: '/chart-analysis',
+      path: '/chart-analysis/index',
       component: chartAnalysis,
       name: 'chartAnalysis',
       meta: {
@@ -240,6 +242,35 @@ export const constantRouterMap = [{
             }
           }
         ]
+      }
+    ]
+  },
+  {
+    path: '/permission-management',
+    component: layout,
+    name: 'permissionManagement',
+    meta: {
+      title: '权限管理',
+      icon: 'fa fa-tasks'
+    },
+    children: [
+      {
+        path: 'management-list',
+        component: managementList,
+        name: 'managementList',
+        meta: {
+          title: '管理员列表',
+          icon: 'fa fa-tasks'
+        }
+      },
+      {
+        path: 'role-list',
+        component: roleList,
+        name: 'roleList',
+        meta: {
+          title: '角色列表',
+          icon: 'fa fa-tasks'
+        }
       }
     ]
   }

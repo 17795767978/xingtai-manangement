@@ -8,7 +8,7 @@
       ref="loginForm"
       label-position="left">
       <div class="title-container">
-        <h3 class="title">调度管理后台1.1.0</h3>
+        <h3 class="title">邢台调度系统1.1.0</h3>
       </div>
       <el-form-item prop="username">
                 <span class="icon-container icon-container_login">
@@ -19,6 +19,7 @@
           size="large"
           v-model="loginForm.username"
           autoComplete="on"
+          style="color: #000"
           placeholder="请输入账号"></el-input>
       </el-form-item>
       <el-form-item prop="password">
@@ -30,6 +31,7 @@
           size="large"
           @keyup.enter.native="handleLogin"
           v-model="loginForm.password"
+          style="color: #000"
           autoComplete="on"
           placeholder="请输入密码"></el-input>
       </el-form-item>
@@ -141,7 +143,7 @@
     position: fixed;
     height: 100%;
     width: 100%;
-    background: url("../../assets/images/bg.jpg") no-repeat center;
+    background: url("../../assets/images/four.gif") no-repeat center;
     background-size: cover;
 
     .login-form {
@@ -150,7 +152,7 @@
       top: 50%;
       width: 380px;
       padding: 35px;
-      background: #fff;
+      background: rgba(255,255,255, 0.85);
       border-radius: 5px;
       transform: translate(-50%, -50%);
     }

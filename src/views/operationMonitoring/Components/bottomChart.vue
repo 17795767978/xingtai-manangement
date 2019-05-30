@@ -22,7 +22,7 @@
 
 <script>
 import rankingChart from './echartsComponent/rankingChart.vue';
-import {badDrivingBehavior} from 'server/interface.js';
+import { badDrivingBehavior } from 'server/interface.js';
 import vueSeamless from 'vue-seamless-scroll';
 export default {
   data () {

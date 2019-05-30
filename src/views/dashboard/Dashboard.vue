@@ -49,7 +49,6 @@
           {name: '线路客流高峰断面分析', icon: 'fa fa-external-link-square'},
           {name: '视频监控与报警中心', icon: 'fa fa-exclamation-triangle'},
           {name: '线路站间运行时间分析', icon: 'fa fa-calendar'}
-
         ]
       };
     }

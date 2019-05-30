@@ -157,7 +157,7 @@ export default {
     return {
       formInline: {
         orgId: '',
-        lineIdId: '',
+        lineId: '',
         devCode: '',
         busPlateNumber: '',
         busUuid: '',
@@ -190,7 +190,7 @@ export default {
     });
     this._tableList({
       orgId: this.formInline.orgId, // 组织机构id
-      lineIdId: this.formInline.lineIdId, // 线路id
+      lineId: this.formInline.lineId, // 线路id
       busUuid: this.formInline.busUuid, // 车辆id
       devCode: this.formInline.devCode, // 设备号
       busPlateNumber: this.formInline.busPlateNumber, // 车牌号
@@ -224,7 +224,7 @@ export default {
         });
         this._tableList({
           orgId: this.formInline.orgId, // 组织机构id
-          lineIdId: this.formInline.lineIdId, // 线路id
+          lineId: this.formInline.lineId, // 线路id
           busUuid: this.formInline.busUuid, // 车辆id
           devCode: this.formInline.devCode, // 设备号
           busPlateNumber: this.formInline.busPlateNumber, // 车牌号
@@ -273,11 +273,11 @@ export default {
         this.formInline.busPlateNumber = '';
         this.formInline.busUuid = '';
         this.formInline.orgId = '';
-        this.formInline.lineIdId = this.selectCarData.id;
+        this.formInline.lineId = this.selectCarData.id;
       } else if (this.selectCarData.levelsType === '1') {
         this.formInline.busPlateNumber = '';
         this.formInline.busUuid = '';
-        this.formInline.lineIdId = '';
+        this.formInline.lineId = '';
         this.formInline.orgId = this.selectCarData.id;
       }
     },
@@ -287,7 +287,7 @@ export default {
     handleCurrentChange (val) {
       this._tableList({
         orgId: this.formInline.orgId, // 组织机构id
-        lineIdId: this.formInline.lineIdId, // 线路id
+        lineId: this.formInline.line, // 线路id
         busUuid: this.formInline.busUuid, // 车辆id
         devCode: this.formInline.devCode, // 设备号
         busPlateNumber: this.formInline.busPlateNumber, // 车牌号
@@ -315,7 +315,7 @@ export default {
       });
       this._tableList({
         orgId: this.formInline.orgId, // 组织机构id
-        lineIdId: this.formInline.lineIdId, // 线路id
+        lineId: this.formInline.lineId, // 线路id
         busUuid: this.formInline.busUuid, // 车辆id
         devCode: this.formInline.devCode, // 设备号
         busPlateNumber: this.formInline.busPlateNumber, // 车牌号
@@ -334,7 +334,7 @@ export default {
       let endTime = dataNow.getTime() - 3600 * 24 * 7 * 1000;
       this.formInline = {
         orgId: '',
-        lineIdId: '',
+        lineId: '',
         devCode: '',
         busPlateNumber: '',
         busUuid: '',
@@ -352,6 +352,8 @@ export default {
           // window.location.href = url;
           window.open(url);
           this.$message.success('正在加载。。。');
+        } else {
+          this.$message.error('服务器请求失败');
         }
       });
     }

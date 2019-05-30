@@ -25,102 +25,102 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {positionRating, hotDataLine} from 'server/interface.js';
-import {BmMarker, BmlHeatmap} from 'vue-baidu-map';
+import { positionRating, hotDataLine } from 'server/interface.js';
+import { BmMarker, BmlHeatmap } from 'vue-baidu-map';
 import iconCar from 'assets/images/bus.png';
 export default {
   data () {
     return {
       isLoading: true,
-      center: {lng: 0, lat: 0},
+      center: { lng: 0, lat: 0 },
       zoom: 3,
       mapStyle: {
         styleJson: [
           {
-              'featureType': 'water',
-              'elementType': 'all',
-              'stylers': {
-                  'color': '#044161'
-              }
+            'featureType': 'water',
+            'elementType': 'all',
+            'stylers': {
+              'color': '#044161'
+            }
           },
           {
-              'featureType': 'land',
-              'elementType': 'all',
-              'stylers': {
-                  'color': '#132b3e'
-              }
+            'featureType': 'land',
+            'elementType': 'all',
+            'stylers': {
+              'color': '#132b3e'
+            }
           },
           {
-              'featureType': 'railway',
-              'elementType': 'all',
-              'stylers': {
-                  'visibility': 'off'
-              }
+            'featureType': 'railway',
+            'elementType': 'all',
+            'stylers': {
+              'visibility': 'off'
+            }
           },
           {
-              'featureType': 'highway',
-              'elementType': 'geometry',
-              'stylers': {
-                  'color': '#004981'
-              }
+            'featureType': 'highway',
+            'elementType': 'geometry',
+            'stylers': {
+              'color': '#004981'
+            }
           },
           {
-              'featureType': 'highway',
-              'elementType': 'geometry.fill',
-              'stylers': {
-                  'color': '#005b96',
-                  'lightness': 1
-              }
+            'featureType': 'highway',
+            'elementType': 'geometry.fill',
+            'stylers': {
+              'color': '#005b96',
+              'lightness': 1
+            }
           },
           {
-              'featureType': 'arterial',
-              'elementType': 'geometry',
-              'stylers': {
-                  'color': '#004981'
-              }
+            'featureType': 'arterial',
+            'elementType': 'geometry',
+            'stylers': {
+              'color': '#004981'
+            }
           },
           {
-              'featureType': 'arterial',
-              'elementType': 'geometry.fill',
-              'stylers': {
-                  'color': '#00508b'
-              }
+            'featureType': 'arterial',
+            'elementType': 'geometry.fill',
+            'stylers': {
+              'color': '#00508b'
+            }
           },
           {
-              'featureType': 'poi',
-              'elementType': 'all',
-              'stylers': {
-                  'color': '#000'
-              }
+            'featureType': 'poi',
+            'elementType': 'all',
+            'stylers': {
+              'color': '#000'
+            }
           },
           {
-              'featureType': 'green',
-              'elementType': 'all',
-              'stylers': {
-                  'color': '#056197',
-                  'visibility': 'off'
-              }
+            'featureType': 'green',
+            'elementType': 'all',
+            'stylers': {
+              'color': '#056197',
+              'visibility': 'off'
+            }
           },
           {
-              'featureType': 'manmade',
-              'elementType': 'all',
-              'stylers': {
-                  'visibility': 'off'
-              }
+            'featureType': 'manmade',
+            'elementType': 'all',
+            'stylers': {
+              'visibility': 'off'
+            }
           },
           {
-              'featureType': 'local',
-              'elementType': 'all',
-              'stylers': {
-                  'color': '#000'
-              }
+            'featureType': 'local',
+            'elementType': 'all',
+            'stylers': {
+              'color': '#000'
+            }
           },
           {
-              'featureType': 'building',
-              'elementType': 'all',
-              'stylers': {
-                  'color': '#1a5787'
-              }
+            'featureType': 'building',
+            'elementType': 'all',
+            'stylers': {
+              'color': '#1a5787'
+            }
           }
         ]
       },
@@ -156,16 +156,16 @@ export default {
         let dataArrLat = res.data.data.map(item => item.lat);
         let dataArrLng = res.data.data.map(item => item.lng);
         for (let i = 0; i < dataArrCount.length; i++) {
-           this.hotdata[i] = {
-             lng: +dataArrLng[i],
-             lat: +dataArrLat[i],
-             count: dataArrCount[i]
-           };
+          this.hotdata[i] = {
+            lng: +dataArrLng[i],
+            lat: +dataArrLat[i],
+            count: dataArrCount[i]
+          };
         }
         this.max = 4000;
       });
     },
-    handler ({BMap, map}) {
+    handler ({ BMap, map }) {
       // console.log(BMap)
       this.center.lng = '114.520486813';
       this.center.lat = '37.0695311969';

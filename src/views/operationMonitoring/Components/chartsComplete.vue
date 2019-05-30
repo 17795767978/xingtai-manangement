@@ -19,9 +19,8 @@
 </template>
 
 <script>
-import {realTimeMileage, realTimeTrips, realTimeShift} from 'server/interface';
-import noEcharts from './echartsComponent/noEcharts.vue';
-import {max} from 'utils/max.js';
+import { realTimeMileage, realTimeTrips, realTimeShift } from 'server/interface';
+import { max } from 'utils/max.js';
 export default {
   data () {
     return {
@@ -38,7 +37,6 @@ export default {
     };
   },
   components: {
-    noEcharts
   },
   created () {
     this._realTimeMileage({
@@ -96,59 +94,59 @@ export default {
         },
         // color: ['#242d78', '#03abd0', '#ff30a0'],
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-    // legend: {
-    //   data: ['当日计划总里程', '计划完成', '实际完成'],
-    //   bottom: 10,
-    //   textStyle: {
-    //     color: '#fff'
-    //   }
-    // },
-    calculable: true,
-    xAxis: [
-        {
+        // legend: {
+        //   data: ['当日计划总里程', '计划完成', '实际完成'],
+        //   bottom: 10,
+        //   textStyle: {
+        //     color: '#fff'
+        //   }
+        // },
+        calculable: true,
+        xAxis: [
+          {
             type: 'category',
-            axisTick: {show: false},
+            axisTick: { show: false },
             axisLine: {
               show: false
             },
             data: this.orgNameMileage,
             axisLabel: {
-            inside: false,
-            // interval: 0,
-            textStyle: {
-              color: '#fff',
-              fontSize: '10',
-              borderRadius: '6'
+              inside: false,
+              // interval: 0,
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
+              }
             }
-        }
-        }
-    ],
-   yAxis: {
-        max: this.realTimeMileageMax + 10,
-        min: 0,
-        interval: Math.floor(this.realTimeMileageMax / 4),
-        axisLine: {
+          }
+        ],
+        yAxis: {
+          max: this.realTimeMileageMax + 10,
+          min: 0,
+          interval: Math.floor(this.realTimeMileageMax / 4),
+          axisLine: {
             show: false
-        },
-        axisTick: {
+          },
+          axisTick: {
             show: false
-        },
-        splitLine: {
-                show: false
-            },
-        axisLabel: {
+          },
+          splitLine: {
+            show: false
+          },
+          axisLabel: {
             textStyle: {
               color: '#fff'
             }
-        }
-    },
-    series: [
-        {
+          }
+        },
+        series: [
+          {
             name: '实时里程',
             type: 'bar',
             // barGap: '-100%',
@@ -162,7 +160,7 @@ export default {
                 barBorderRadius: 20
               }
             }
-        }
+          }
         // {
         //     name: '计划完成',
         //     type: 'bar',
@@ -191,7 +189,7 @@ export default {
         //       }
         //     }
         // }
-    ]
+        ]
       });
     },
     drawLineMiddle () {
@@ -207,62 +205,62 @@ export default {
         },
         // color: ['#03abd0', '#fedd00', '#8fc31f'],
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-    // legend: {
-    //   data: ['当日计划总趟次', '计划完成', '实际完成'],
-    //   bottom: 10,
-    //   textStyle: {
-    //     color: '#fff'
-    //   }
-    // },
-    calculable: true,
-    xAxis: [
-        {
+        // legend: {
+        //   data: ['当日计划总趟次', '计划完成', '实际完成'],
+        //   bottom: 10,
+        //   textStyle: {
+        //     color: '#fff'
+        //   }
+        // },
+        calculable: true,
+        xAxis: [
+          {
             type: 'category',
-            axisTick: {show: false},
+            axisTick: { show: false },
             axisLine: {
               show: false
             },
             data: this.orgNameTrips,
             axisLabel: {
-            inside: false,
-            // interval: 0,
-            // formatter: function(value) {
-            //   return value.split('').join('\n');
-            // },
-            textStyle: {
-              color: '#fff',
-              fontSize: '10',
-              borderRadius: '6'
+              inside: false,
+              // interval: 0,
+              // formatter: function(value) {
+              //   return value.split('').join('\n');
+              // },
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
+              }
             }
-        }
-        }
-    ],
-   yAxis: {
-        max: this.realTimeTripsMax + 10,
-        min: 0,
-        interval: Math.floor(this.realTimeTripsMax / 4),
-        axisLine: {
+          }
+        ],
+        yAxis: {
+          max: this.realTimeTripsMax + 10,
+          min: 0,
+          interval: Math.floor(this.realTimeTripsMax / 4),
+          axisLine: {
             show: false
-        },
-        axisTick: {
+          },
+          axisTick: {
             show: false
-        },
-        splitLine: {
-                show: false
-            },
-        axisLabel: {
+          },
+          splitLine: {
+            show: false
+          },
+          axisLabel: {
             textStyle: {
               color: '#fff'
             }
-        }
-    },
-    series: [
-        {
+          }
+        },
+        series: [
+          {
             // name: '当日计划总趟次',
             name: '实时趟次',
             type: 'bar',
@@ -278,7 +276,7 @@ export default {
                 color: '#8fc31f'
               }
             }
-        }
+          }
         // {
         //     name: '计划完成',
         //     type: 'bar',
@@ -307,7 +305,7 @@ export default {
         //       }
         //     }
         // }
-    ]
+        ]
       });
     },
     drawLineRight () {
@@ -323,59 +321,59 @@ export default {
         },
         color: ['#8957a1', '#f39800', '#00ffff'],
         tooltip: {
-            trigger: 'axis',
-            axisPointer: {
-                type: 'shadow'
-            }
+          trigger: 'axis',
+          axisPointer: {
+            type: 'shadow'
+          }
         },
-    // legend: {
-    //   data: ['当日计划总班次', '计划完成', '实际完成'],
-    //   bottom: 10,
-    //   textStyle: {
-    //     color: '#fff'
-    //   }
-    // },
-    calculable: true,
-    xAxis: [
-        {
+        // legend: {
+        //   data: ['当日计划总班次', '计划完成', '实际完成'],
+        //   bottom: 10,
+        //   textStyle: {
+        //     color: '#fff'
+        //   }
+        // },
+        calculable: true,
+        xAxis: [
+          {
             type: 'category',
-            axisTick: {show: false},
+            axisTick: { show: false },
             axisLine: {
               show: false
             },
             data: this.orgNameShift,
             axisLabel: {
-            inside: false,
-            // interval: 0,
-            textStyle: {
-              color: '#fff',
-              fontSize: '10',
-              borderRadius: '6'
+              inside: false,
+              // interval: 0,
+              textStyle: {
+                color: '#fff',
+                fontSize: '10',
+                borderRadius: '6'
+              }
             }
-        }
-        }
-    ],
-   yAxis: {
-        max: this.realTimeShiftMax + 10,
-        min: 0,
-        interval: Math.floor(this.realTimeShiftMax / 4),
-        axisLine: {
+          }
+        ],
+        yAxis: {
+          max: this.realTimeShiftMax + 10,
+          min: 0,
+          interval: Math.floor(this.realTimeShiftMax / 4),
+          axisLine: {
             show: false
-        },
-        axisTick: {
+          },
+          axisTick: {
             show: false
-        },
-        splitLine: {
-                show: false
-            },
-        axisLabel: {
+          },
+          splitLine: {
+            show: false
+          },
+          axisLabel: {
             textStyle: {
               color: '#fff'
             }
-        }
-    },
-    series: [
-        {
+          }
+        },
+        series: [
+          {
             name: '实时班次',
             type: 'bar',
             // barGap: '-100%',
@@ -389,7 +387,7 @@ export default {
                 barBorderRadius: 20
               }
             }
-        }
+          }
         // {
         //     name: '计划完成',
         //     type: 'bar',
@@ -418,7 +416,7 @@ export default {
         //       }
         //     }
         // }
-    ]
+        ]
       });
     }
   },
